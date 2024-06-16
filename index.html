@@ -1,0 +1,812 @@
+<!--
+[ログ・ホライズンＴＲＰＧ 特技一覧てすと]
+Copyright (c) 2014 yamane
+This software is released under the MIT License.
+http://opensource.org/licenses/mit-license.php
+※取得しているJSONデータの著作権はログ･ホライズンTRPG冒険窓口の記述に準じます。
+-->
+<!DOCTYPE HTML>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>LHTRPG 特技查詢</title>
+<style>
+body {
+  font-family:'Lucida Grande','Hiragino Kaku Gothic ProN',Meiryo,sans-serif;
+  font-size:0.7em;
+  line-height:1.5em;
+  color:#222;
+}
+a:link, a:visited, a:link, a:visited {
+    color:#333;
+  text-decoration:underline;
+}
+a:hover, a:active, a:hover, a:active {
+    color:#999;
+  text-decoration:underline;
+}
+
+p {
+  margin:0;padding:0;
+}
+
+input ,select{
+vertical-align:middle;
+}
+
+.left {
+  text-align:left;
+}
+
+.center {
+  text-align:center;
+}
+
+.right {
+  text-align:center;
+}
+
+table {
+  width:900px;
+  border-collapse: collapse;
+  margin-top:10px;
+}
+
+table tr.odd {
+  background-color:#eee;
+}
+
+table th {
+  border:solid 1px #ccc;
+  font-weight:normal;
+  color:#fff;
+  padding:2px;
+  background-color:#666;
+}
+table td {
+  border:solid 1px #ccc;
+  text-align:center;
+}
+
+table.nostyle {
+  width: auto;
+  #width:1500px;
+  border-spacing: 0;
+  font-size:13px;
+}
+table.nostyle th {
+  color: #000;
+  padding: 8px 15px;
+  background: #eee;
+  background:-moz-linear-gradient(#eee, #ddd 50%);
+  background:-webkit-gradient(linear, 100% 0%, 100% 50%, from(#eee), to(#ddd));
+  font-weight: bold;
+  border-top:1px solid #aaa;
+  border-bottom:1px solid #aaa;
+  line-height: 120%;
+  text-align: center;
+  text-shadow:0 -1px 0 rgba(255,255,255,0.9);
+  box-shadow: 0px 1px 1px rgba(255,255,255,0.3) inset;
+}
+table.nostyle th:first-child {
+  border-left:1px solid #aaa;
+  border-radius: 5px 0 0 0;
+}
+table.nostyle th:last-child {
+  border-radius:0 5px 0 0;
+  border-right:1px solid #aaa;
+  #box-shadow: 2px 2px 1px rgba(0,0,0,0.1);
+}
+table.nostyle tr td {
+  padding: 8px 15px;
+  text-align: center;
+}
+table.nostyle tr td:first-child {
+  border-left: 1px solid #aaa;
+}
+table.nostyle tr td:last-child {
+  border-right: 1px solid #aaa;
+  #box-shadow: 2px 2px 1px rgba(0,0,0,0.1);
+}
+table.nostyle tr {
+  background: #fff;
+}
+table.nostyle tr:nth-child(2n+1) {
+  background: #f5f5f5;
+}
+table.nostyle tr:last-child td {
+  border-bottom:1px solid #aaa;
+  #box-shadow: 2px 2px 1px rgba(0,0,0,0.1);
+}
+table.nostyle tr:last-child td:first-child {
+  border-radius: 0 0 0 5px;
+}
+table.nostyle tr:last-child td:last-child {
+  border-radius: 0 0 5px 0;
+}
+table.nostyle tr:hover {
+  background: #eee;
+  #cursor:pointer;
+}
+</style>
+</head>
+<body leftmargin="30" topmargin="10" rightmargin="30" bottommargin="10">
+<h3>LHTRPG 特技查詢</h3>
+<p>
+  該工具為根據<a href="https://unonek.sakura.ne.jp/lh/skl.html">[LHTRPG 特技検索]</a>而做修改的中文版本。<br/>
+目前還在開發中，翻譯資料將會後續補上。<br/>
+</p>
+
+<form action = "*" onsubmit = "return false;">
+<table >
+<tr><th colspan="2">查詢條件</th></tr>
+<tr><td>特技名稱</td><td class="left">
+<label><input id="sna" type="text" size="40" onfocus="tm_start();" onblur="tm_Off();"/></label>&nbsp;
+</td></tr>
+<tr><td>特技類別</td><td class="left">
+<label><input id="com" type="checkbox" onchange="reloadData();"/> 共通</label>&nbsp;<br>
+<label><input id="hum" type="checkbox" onchange="reloadData();"/> 人類</label>&nbsp;
+<label><input id="elf" type="checkbox" onchange="reloadData();"/> 精靈</label>&nbsp;
+<label><input id="dwf" type="checkbox" onchange="reloadData();"/> 矮人</label>&nbsp;
+<label><input id="alv" type="checkbox" onchange="reloadData();"/> 半祖族</label>&nbsp;
+<label><input id="cat" type="checkbox" onchange="reloadData();"/> 貓人族</label>&nbsp;
+<label><input id="wlf" type="checkbox" onchange="reloadData();"/> 狼牙族</label>&nbsp;
+<label><input id="fox" type="checkbox" onchange="reloadData();"/> 狐尾族</label>&nbsp;
+<label><input id="ret" type="checkbox" onchange="reloadData();"/> 法儀族</label>&nbsp;<br>
+
+<label><input id="wor" type="checkbox" onchange="reloadData();"/> 戰士職</label>&nbsp;
+<label><input id="hel" type="checkbox" onchange="reloadData();"/> 回復職</label>&nbsp;
+<label><input id="wep" type="checkbox" onchange="reloadData();"/> 武器攻擊職</label>&nbsp;
+<label><input id="mag" type="checkbox" onchange="reloadData();"/> 魔法攻擊職</label>&nbsp;<br>
+
+<label><input id="gud" type="checkbox" onchange="reloadData();"/> 守護戰士</label>&nbsp;
+<label><input id="sam" type="checkbox" onchange="reloadData();"/> 武士</label>&nbsp;
+<label><input id="mnk" type="checkbox" onchange="reloadData();"/> 武鬥家</label>&nbsp;
+<label><input id="clr" type="checkbox" onchange="reloadData();"/> 牧師</label>&nbsp;
+<label><input id="drd" type="checkbox" onchange="reloadData();"/> 德魯伊</label>&nbsp;
+<label><input id="kng" type="checkbox" onchange="reloadData();"/> 神官</label>&nbsp;
+<label><input id="ass" type="checkbox" onchange="reloadData();"/> 暗殺者</label>&nbsp;
+<label><input id="swb" type="checkbox" onchange="reloadData();"/> 盜劍士</label>&nbsp;
+<label><input id="brd" type="checkbox" onchange="reloadData();"/> 吟遊詩人</label>&nbsp;
+<label><input id="scr" type="checkbox" onchange="reloadData();"/> 妖術師</label>&nbsp;
+<label><input id="smn" type="checkbox" onchange="reloadData();"/> 召喚術師</label>&nbsp;
+<label><input id="enc" type="checkbox" onchange="reloadData();"/> 賦予術師</label>&nbsp;<br>
+</td></tr>
+<tr><td>戰鬥/一般</td><td class="left">
+<label><input id="bat" type="checkbox" onchange="reloadData();" checked=""/> 戰鬥</label>&nbsp;
+<label><input id="nor" type="checkbox" onchange="reloadData();" checked=""/> 一般</label>&nbsp;<br/>
+</td></tr>
+<tr><td>時機</td><td class="left">
+<label><input id="psi" type="checkbox" onchange="reloadData();"/> 常駐</label>&nbsp;
+<label><input id="stu" type="checkbox" onchange="reloadData();"/> 設置階段</label>&nbsp;
+<label><input id="nti" type="checkbox" onchange="reloadData();"/> 先攻階段</label>&nbsp;
+<label><input id="mov" type="checkbox" onchange="reloadData();"/> 移動動作</label>&nbsp;
+<label><input id="min" type="checkbox" onchange="reloadData();"/> 次要動作</label>&nbsp;
+<label><input id="meg" type="checkbox" onchange="reloadData();"/> 主要動作</label>&nbsp;
+<label><input id="beh" type="checkbox" onchange="reloadData();"/> 行動</label>&nbsp;
+<label><input id="ins" type="checkbox" onchange="reloadData();"/> 即時動作</label>&nbsp;<br>
+<label><input id="dar" type="checkbox" onchange="reloadData();"/> 傷害骰</label>&nbsp;
+<label><input id="dab" type="checkbox" onchange="reloadData();"/> 承受傷害前</label>&nbsp;
+<label><input id="daa" type="checkbox" onchange="reloadData();"/> 承受傷害後</label>&nbsp;
+<label><input id="jub" type="checkbox" onchange="reloadData();"/> 判定前</label>&nbsp;
+<label><input id="jua" type="checkbox" onchange="reloadData();"/> 判定後</label>&nbsp;
+<label><input id="cle" type="checkbox" onchange="reloadData();"/> 清除階段</label>&nbsp;
+<label><input id="ppl" type="checkbox" onchange="reloadData();"/> 跑團前</label>&nbsp;<br>
+<label><input id="brf" type="checkbox" onchange="reloadData();"/> 簡令階段</label>&nbsp;
+<label><input id="tex" type="checkbox" onchange="reloadData();"/> 見下文</label>&nbsp;
+<label><input id="rst" type="checkbox" onchange="reloadData();"/> 休息階段</label>&nbsp;
+</td></tr>
+<tr><td>射程</td><td class="left">
+<label><input id="cls" type="checkbox" onchange="reloadData();"/> 至近</label>&nbsp;
+<label><input id="one" type="checkbox" onchange="reloadData();"/> 1Sq</label>&nbsp;
+<label><input id="two" type="checkbox" onchange="reloadData();"/> 2Sq</label>&nbsp;
+<label><input id="fur" type="checkbox" onchange="reloadData();"/> 4Sq</label>&nbsp;
+<label><input id="fiv" type="checkbox" onchange="reloadData();"/> 5Sq</label>&nbsp;
+<label><input id="six" type="checkbox" onchange="reloadData();"/> 6Sq</label>&nbsp;
+<label><input id="twe" type="checkbox" onchange="reloadData();"/> 20Sq</label>&nbsp;
+<label><input id="wpn" type="checkbox" onchange="reloadData();"/> 武器</label>&nbsp;
+<label><input id="hon" type="checkbox" onchange="reloadData();"/> 見下文</label>&nbsp;
+<label><input id="srd" type="checkbox" onchange="reloadData();"/> 根據SR</label>&nbsp;
+</td></tr>
+<tr><td>効果</td><td class="left">
+<label><input id="efe" type="text" size="40" onfocus="tm_start();" onblur="tm_Off();"/></label>&nbsp;(以空格切開後，可做or查詢)
+</td></tr>
+<tr><td>標籤</td><td class="left">
+<label><span id='tag_list'>ヾ( ・ｗ・)ﾉ゛</span></label>
+</td></tr>
+<tr><td>選項</td><td class="left">
+<label><input id="fct" type="checkbox" onchange="reloadData();" checked="" /> 顯示效果</label>&nbsp;
+<label><input id="exp" type="checkbox" onchange="reloadData();"/> 顯示說明</label>&nbsp;&nbsp;&nbsp;
+<input type="button" name="c_all" value="全選" onMouseUp="check_all()">&nbsp;
+<input type="button" name="r_all" value="清空" onMouseUp="reset_all()">&nbsp;<br/>
+查詢範圍：
+<input id="bk1" type="checkbox" onchange="reloadData();" checked=""/> 基本(book1)</label>&nbsp;
+<input id="bk2" type="checkbox" onchange="reloadData();" checked=""/> 拡張(book2)</label>&nbsp;
+<input id="etc" type="checkbox" onchange="reloadData();" checked=""/> ウェンズディ・ガゼットのみに記載(Gz)</label>&nbsp;
+<br/>
+</td></tr>
+</table>
+</form>
+<table class="nostyle">
+<thead>
+<tr>
+  <th class="left">特技名稱</th>
+  <th class="left">標籤</th>
+  <th style="width:70px;" nowrap>類別</th>
+  <th nowrap>戰鬥/<br/>一般</th>
+  <th>MAX<br/>SR</th>
+  <th>時機</th>
+  <th>判定</th>
+  <th>對象</th>
+  <th>射程</th>
+  <th style="width:40px;">代價</th>
+  <th>限制</th>
+  <th>效果</th>
+</tr>
+</thead>
+<tbody id="tablebody">
+</tbody>
+</table>
+
+
+<script type="text/javascript">
+
+var skills;
+var ad_skill;
+var tagl = [""];
+var timer1;
+
+function Sleep( T ){
+   var d1 = new Date().getTime();
+   var d2 = new Date().getTime();
+   while( d2 < d1+1000*T ){
+       d2=new Date().getTime();
+   }
+   return;
+}
+
+function tm_start() {
+  timer1 = setInterval("reloadData()",1000);
+}
+
+function tm_Off() {
+    clearInterval(timer1);
+    reloadData();
+}
+function reloadData() {
+  var com = document.getElementById('com');
+
+  var hum = document.getElementById('hum');
+  var elf = document.getElementById('elf');
+  var dwf = document.getElementById('dwf');
+  var alv = document.getElementById('alv');
+  var cat = document.getElementById('cat');
+  var wlf = document.getElementById('wlf');
+  var fox = document.getElementById('fox');
+  var ret = document.getElementById('ret');
+
+  var gud = document.getElementById('gud');
+  var sam = document.getElementById('sam');
+  var mnk = document.getElementById('mnk');
+  var clr = document.getElementById('clr');
+  var drd = document.getElementById('drd');
+  var kng = document.getElementById('kng');
+  var ass = document.getElementById('ass');
+  var swb = document.getElementById('swb');
+  var brd = document.getElementById('brd');
+  var scr = document.getElementById('scr');
+  var smn = document.getElementById('smn');
+  var enc = document.getElementById('enc');
+
+  var wor = document.getElementById('wor');
+  var hel = document.getElementById('hel');
+  var wep = document.getElementById('wep');
+  var mag = document.getElementById('mag');
+
+  var stu = document.getElementById('stu');
+  var mov = document.getElementById('mov');
+  var min = document.getElementById('min');
+  var meg = document.getElementById('meg');
+  var ins = document.getElementById('ins');
+  var beh = document.getElementById('beh');
+  var tex = document.getElementById('tex');
+  var jub = document.getElementById('jub');
+  var jua = document.getElementById('jua');
+  var dar = document.getElementById('dar');
+  var dab = document.getElementById('dab');
+  var daa = document.getElementById('daa');
+  var nti = document.getElementById('nti');
+  var cle = document.getElementById('cle');
+  var brf = document.getElementById('brf');
+  var rst = document.getElementById('rst');
+  var ppl = document.getElementById('ppl');
+  var psi = document.getElementById('psi');
+
+  var cls = document.getElementById('cls');
+  var one = document.getElementById('one');
+  var two = document.getElementById('two');
+  var fur = document.getElementById('fur');
+  var fiv = document.getElementById('fiv');
+  var six = document.getElementById('six');
+  var twe = document.getElementById('twe');
+  var wpn = document.getElementById('wpn');
+  var hon = document.getElementById('hon');
+  var srd = document.getElementById('srd');
+
+  var bat = document.getElementById('bat');
+  var nor = document.getElementById('nor');
+
+  var efe = document.getElementById('efe').value;
+  var sna = document.getElementById('sna').value;
+
+  var tna = document.getElementById('tna').selectedIndex;
+  tna = tagl[tna];
+
+  var fct = document.getElementById('fct');
+  var exp = document.getElementById('exp');
+  var bk1 = document.getElementById('bk1');
+  var bk2 = document.getElementById('bk2');
+  var etc = document.getElementById('etc');
+
+  var f1 = 0;//特技種別のチェックあるなし
+  var f2 = 0;//タイミングのチェックあるなし
+  var f3 = 0;//効果の書き込みあるなし
+  //f4 効果の判定
+  //f5 タグの判定
+  var f6 = 0;//特技名の書き込みあるなし
+  var f7 = 0;//タイミングのチェックあるなし
+
+  for(var i=1; i < 26; i++) {
+    if(document.forms[0].elements[i].checked == true){
+      f1 = 1;
+      break;
+    }
+  }
+  for(var i=28; i < 47; i++) {
+    if(document.forms[0].elements[i].checked == true){
+      f2 = 1;
+      break;
+    }
+  }
+  if(efe != ""){
+    f3 = 1;
+    var efect = escape(efe).split(/\s/);
+  }
+  if(sna != ""){
+    f6 = 1;
+    var s_name = escape(sna);
+  }
+  for(var i=47; i < 57; i++) {
+    if(document.forms[0].elements[i].checked == true){
+      f7 = 1;
+      break;
+    }
+  }
+  var tbody = document.getElementById("tablebody");
+  tbody.innerHTML = "";
+  var dispCount = 0;
+  for(var i=0; i < skills.length; i++) {
+    if(!bk1.checked && !bk2.checked && !etc.checked) {
+      break;
+    }else{
+      if(!bk1.checked && skills[i].post == "Book1"){
+        continue;
+      }
+      if(!bk2.checked && skills[i].post == "Book2"){
+        continue;
+      }
+      if(!etc.checked && skills[i].post == "その他"){
+        continue;
+      }
+    }
+    var post1 = skills[i].post;
+    post1 = post1.replace("その他", "Gz");
+    var type2 = skills[i].type;
+    var f4 = 0;//効果ノチェック
+    //if(!ads.checked && skills[i].function.match(/Ｂ２/)) {
+      //continue;
+    //}
+    if(!bat.checked && type2 == "戦闘") {
+      continue;
+    }
+    if(!nor.checked && type2 == "一般") {
+      continue;
+    }
+    if(f1 == 0 && f2 == 0 && f3 == 0 && tna == "" && f6 == 0 && f7 == 0) {
+      continue;
+    }
+
+    var type1 = skills[i].job_type;
+    type1 = type1.replace("共通特技", "共通");
+    type1 = type1.replace("種族特技:", "");
+    type1 = type1.replace("アーキ職業特技:", "");
+    type1 = type1.replace("メイン職業特技:", "");
+
+    if(f1 == 1){
+    if(!com.checked && type1 == "共通") {
+      continue;
+    }
+
+      if(!hum.checked && type1 == "ヒューマン") {
+        continue;
+      }
+      if(!elf.checked && type1 == "エルフ") {
+        continue;
+      }
+      if(!dwf.checked && type1 == "ドワーフ") {
+        continue;
+      }
+      if(!alv.checked && type1 == "ハーフアルヴ") {
+        continue;
+      }
+      if(!cat.checked && type1 == "猫人族") {
+        continue;
+      }
+      if(!wlf.checked && type1 == "狼牙族") {
+        continue;
+      }
+      if(!fox.checked && type1 == "狐尾族") {
+        continue;
+      }
+      if(!ret.checked && type1 == "法儀族") {
+        continue;
+      }
+
+      if(!wor.checked && type1 == "戦士職") {
+        continue;
+      }
+      if(!hel.checked && type1 == "回復職") {
+        continue;
+      }
+      if(!wep.checked && type1 == "武器攻撃職") {
+        continue;
+      }
+      if(!mag.checked && type1 == "魔法攻撃職") {
+        continue;
+      }
+
+      if(!gud.checked && type1 == "守護戦士") {
+        continue;
+      }
+      if(!sam.checked && type1 == "武士") {
+        continue;
+      }
+      if(!mnk.checked && type1 == "武闘家") {
+        continue;
+      }
+      if(!clr.checked && type1 == "施療神官") {
+        continue;
+      }
+      if(!drd.checked && type1 == "森呪遣い") {
+        continue;
+      }
+      if(!kng.checked && type1 == "神祇官") {
+        continue;
+      }
+      if(!ass.checked && type1 == "暗殺者") {
+        continue;
+      }
+      if(!swb.checked && type1 == "盗剣士") {
+        continue;
+      }
+      if(!brd.checked && type1 == "吟遊詩人") {
+        continue;
+      }
+      if(!scr.checked && type1 == "妖術師") {
+        continue;
+      }
+      if(!smn.checked && type1 == "召喚術師") {
+        continue;
+      }
+      if(!enc.checked && type1 == "付与術師") {
+        continue;
+      }
+    }
+
+    if(f2 == 1){
+      if(!stu.checked && skills[i].timing =="設置階段") {
+        continue;
+      }
+      if(!mov.checked && skills[i].timing =="移動動作") {
+        continue;
+      }
+      if(!min.checked && skills[i].timing =="次要動作") {
+        continue;
+      }
+      if(!meg.checked && skills[i].timing =="主要動作") {
+        continue;
+      }
+      if(!ins.checked && skills[i].timing =="即時動作") {
+        continue;
+      }
+      if(!beh.checked && skills[i].timing =="行動") {
+        continue;
+      }
+      if(!tex.checked && skills[i].timing =="見下文") {
+        continue;
+      }
+      if(!jub.checked && skills[i].timing =="判定前") {
+        continue;
+      }
+      if(!jua.checked && skills[i].timing =="判定後") {
+        continue;
+      }
+      if(!dar.checked && skills[i].timing =="傷害骰") {
+        continue;
+      }
+      if(!dab.checked && skills[i].timing =="承受傷害前") {
+        continue;
+      }
+      if(!daa.checked && skills[i].timing =="承受傷害後") {
+        continue;
+      }
+      if(!nti.checked && skills[i].timing =="先攻階段") {
+        continue;
+      }
+      if(!cle.checked && skills[i].timing =="清除階段") {
+        continue;
+      }
+      if(!brf.checked && skills[i].timing =="簡令階段") {
+        continue;
+      }
+      if(!rst.checked && skills[i].timing =="休息階段") {
+        continue;
+      }
+      if(!ppl.checked && skills[i].timing =="跑團前") {
+        continue;
+      }
+      if(!psi.checked && skills[i].timing =="常駐") {
+        continue;
+      }
+    }
+    if(f3 == 1) {
+      for(var j = 0; j < efect.length; j++) {
+        var re = new RegExp(efect[j], "i");
+        if(!efect[j] == "" && skills[i].function.match(re)) {
+          f4 = 1;
+          break;
+        }
+      }
+      if(f4 == 0) {
+        continue;
+      }
+    }
+    if(!tna == "") {
+      var f5 = 0;//タグの有無
+      var re = new RegExp(tna, "i");
+      for(var j = 0; j < skills[i].tags.length; j++) {
+        if(skills[i].tags[j] == tna) {
+          f5 = 1;
+          break;
+        }
+      }
+      if(f5 == 0) {
+        continue;
+      }
+    }
+
+    if(f6 == 1) {
+      var re = new RegExp(s_name, "i");
+      if(!skills[i].name.match(re)) {
+        continue;
+      }
+    }
+    if(f7 == 1) {
+      if(!cls.checked && skills[i].range =="至近") {
+        continue;
+      }
+      if(!one.checked && skills[i].range =="1Sq") {
+        continue;
+      }
+      if(!two.checked && skills[i].range =="2Sq") {
+        continue;
+      }
+      if(!fur.checked && skills[i].range =="4Sq") {
+        continue;
+      }
+      if(!fiv.checked && skills[i].range =="5Sq") {
+        continue;
+      }
+      if(!six.checked && skills[i].range =="6Sq") {
+        continue;
+      }
+      if(!twe.checked && skills[i].range =="20Sq") {
+        continue;
+      }
+      if(!wpn.checked && skills[i].range =="武器") {
+        continue;
+      }
+      if(!hon.checked && skills[i].range =="見下文") {
+        continue;
+      }
+      if(!srd.checked && skills[i].range.match(/SR/)) {
+        continue;
+      }
+    }
+
+    var row = document.createElement('tr');
+    if(dispCount%2==0) {
+      row.setAttribute("class","odd");
+    }
+
+    var nameCol = document.createElement('td');
+    nameCol.innerHTML=skills[i].name;
+    nameCol.setAttribute("class","left");
+    row.appendChild(nameCol);
+
+    var tagCol = document.createElement('td');
+    tagCol.innerHTML=skills[i].tags;
+    tagCol.setAttribute("class","left");
+    row.appendChild(tagCol);
+
+    var type1Col = document.createElement('td');
+    type1Col.innerHTML= type1;
+    row.appendChild(type1Col);
+
+    var type2Col = document.createElement('td');
+    type2Col.innerHTML=skills[i].type;
+    row.appendChild(type2Col);
+
+    var srCol = document.createElement('td');
+    srCol.innerHTML=skills[i].skill_max_rank;
+    row.appendChild(srCol);
+
+    var timingCol = document.createElement('td');
+    timingCol.innerHTML=skills[i].timing;
+    row.appendChild(timingCol);
+
+    var judgeCol = document.createElement('td');
+    judgeCol.innerHTML=skills[i].roll;
+    row.appendChild(judgeCol);
+
+    var targetCol = document.createElement('td');
+    targetCol.innerHTML=skills[i].target;
+    row.appendChild(targetCol);
+
+    var rangeCol = document.createElement('td');
+    rangeCol.innerHTML=skills[i].range;
+    row.appendChild(rangeCol);
+
+    var costCol = document.createElement('td');
+    costCol.innerHTML=skills[i].cost;
+    row.appendChild(costCol);
+
+    var limitCol = document.createElement('td');
+    limitCol.innerHTML=skills[i].limit;
+    row.appendChild(limitCol);
+
+    var efectCol = document.createElement('td');
+    if(fct.checked) {
+      efectCol.innerHTML=skills[i].function + "(" + post1 + ")";
+    }else{
+      efectCol.innerHTML="";
+    }
+    row.appendChild(efectCol);
+    tbody.appendChild(row);
+
+    if(exp.checked) {
+      var row2 = document.createElement('tr');
+      if(dispCount%2==0) {
+        row2.setAttribute("class","odd");
+      }
+      var functionCol = document.createElement('td');
+      functionCol.setAttribute("colspan","12");
+      functionCol.setAttribute("class","left");
+      var funtionText = "";
+      var explainText = "";
+      //if(fct.checked) {
+        //funtionText = "<p>効果：" + skills[i].function + "</p>";
+      //}
+      if(exp.checked) {
+        explainText = "<p>解説：" + skills[i].explain + "</p>";
+      }
+      functionCol.innerHTML = funtionText + explainText;
+      row2.appendChild(functionCol);
+      tbody.appendChild(row2);
+    }
+
+    dispCount++;
+  }
+}
+//重複チェック
+var checkDuplicate = function(array, str){
+  var array = array;
+  var str = str;
+    for(var i =0; i < array.length; i++){
+        if(str == array[i]){
+            return true;
+        }
+    }
+    return false;
+};
+// 初期化1
+window.onload= function() {
+  //var script = document.createElement('script');
+  //script.src = "https://lhrpg.com/lhz/api/skills.json?callback=jsonp";
+  //document.body.appendChild(script);
+
+  var request = new XMLHttpRequest();
+        request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/zh/skills.json", false);
+        request.send();
+        let translationData = JSON.parse(request.responseText);
+        jsonp(translationData)
+};
+
+// 初期化2
+var jsonp = function(data) {
+  skills = data.skills;
+  tag_list();
+  var tag_box = "";
+  for(var i=0; i<tagl.length; i++ ){
+    tag_box += "<option value='" + i + "'>" + tagl[i] + "</option>";
+  }
+  tag_box = "<select id='tna' name='tna' size='1' tabindex='0' onchange='reloadData();'/>" + tag_box + "</select>";
+  //alert(document.getElementById('pre_sets').innerHTML);
+  document.getElementById('tag_list').innerHTML = tag_box;
+  //var script = document.createElement('script');
+  //script.src = "http://unonek.sakura.ne.jp/lh/b2txt";
+  //document.body.appendChild(script);
+  reloadData();
+}
+var jsonps = function(data) {
+  ad_skill = data.ad_skill;
+  push_skill();
+}
+
+//スキル追加
+function push_skill() {
+  var j = 0;
+  var end = skills.length + ad_skill.length;
+  for(var i=skills.length; i < end ;i++){
+    skills[i] = ad_skill[j];
+    j++;
+  }
+}
+
+function escape(str) {
+  str = str.replace(/&/g, '&amp;');
+  str = str.replace(/</g, '&lt;');
+  str = str.replace(/>/g, '&gt;');
+  str = str.replace(/"/g, '&quot;');
+  str = str.replace(/'/g, '&#39;');
+  str = str.replace( /[A-Za-z0-9]/g, function(s) {
+    return String.fromCharCode(s.charCodeAt(0) + 65248);
+  });
+  return str;
+}
+
+function tag_list() {
+  for(var i=0; i < skills.length ;i++){
+    for(var j=0; j<skills[i].tags.length ;j++){
+      var tag = skills[i].tags[j]
+      if( !checkDuplicate(tagl, tag) ){
+        tagl.push(tag);
+      }
+    }
+  }
+}
+
+function check_all() {
+  for(var i=1; i < 57; i++) {
+    document.forms[0].elements[i].checked = true;
+  }
+  reloadData();
+}
+
+function reset_all() {
+  for(var i=1; i < 57; i++) {
+    document.forms[0].elements[i].checked = false;
+  }
+  document.forms[0].elements[26].checked = true;
+  document.forms[0].elements[27].checked = true;
+  document.getElementById('efe').value = "";
+  document.getElementById('sna').value = "";
+  document.getElementById('tna').selectedIndex = 0;
+  document.forms[0].elements[60].checked = false;
+  document.forms[0].elements[63].checked = true;
+  document.forms[0].elements[64].checked = true;
+  reloadData();
+}
+</script>
+</body>
+</html>
