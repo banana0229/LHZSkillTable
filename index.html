@@ -11,10 +11,11 @@ http://opensource.org/licenses/mit-license.php
 <meta charset="UTF-8">
 <title>LHTRPG 特技查詢</title>
 <style>
+html,
 body {
-  font-family:'Lucida Grande','Hiragino Kaku Gothic ProN',Meiryo,sans-serif;
+  font-family:'Lucida Grande','Lucida Sans Unicode', 'Lucida Sans Regular', Tahoma, Verdana, sans-serif;
   font-size:0.7em;
-  line-height:1.5em;
+  line-height:2.5em;
   color:#222;
 }
 a:link, a:visited, a:link, a:visited {
@@ -133,7 +134,7 @@ table.nostyle tr:hover {
 <body leftmargin="30" topmargin="10" rightmargin="30" bottommargin="10">
 <h3>LHTRPG 特技查詢</h3>
 <p>
-  該工具為根據<a href="https://unonek.sakura.ne.jp/lh/skl.html">[LHTRPG 特技検索]</a>而做修改的中文版本。<br/>
+  該工具為以<a href="https://unonek.sakura.ne.jp/lh/skl.html">[LHTRPG 特技検索]</a>為基礎，進行修改的中文版本。<br/>
 目前還在開發中，翻譯資料將會後續補上。<br/>
 </p>
 
@@ -230,7 +231,8 @@ table.nostyle tr:hover {
 <table class="nostyle">
 <thead>
 <tr>
-  <th class="left">特技名稱</th>
+  <th class="left">名稱</th>
+  <th class="left">日文名稱</th>
   <th class="left">標籤</th>
   <th style="width:70px;" nowrap>類別</th>
   <th nowrap>戰鬥/<br/>一般</th>
@@ -629,10 +631,21 @@ function reloadData() {
       row.setAttribute("class","odd");
     }
 
+    var name = skills[i].name;
+    var regex = /(.*)\((.*)\)/;
+    var matches = name.match(regex);
+    var zhName = matches ? matches[1] : name;
+    var jpName = matches ? matches[2] : name;
+
     var nameCol = document.createElement('td');
-    nameCol.innerHTML=skills[i].name;
+    nameCol.innerHTML=zhName;
     nameCol.setAttribute("class","left");
     row.appendChild(nameCol);
+
+    var name2Col = document.createElement('td');
+    name2Col.innerHTML=jpName;
+    name2Col.setAttribute("class","left");
+    row.appendChild(name2Col);
 
     var tagCol = document.createElement('td');
     tagCol.innerHTML=skills[i].tags;
