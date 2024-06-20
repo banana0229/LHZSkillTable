@@ -129,8 +129,8 @@ table.nostyle tr:hover {
   background: #eee;
   #cursor:pointer;
 }
-tbody {
-  font-size:1.0em;
+table.option {
+  font-size:1.2em;
 }
 </style>
 </head>
@@ -142,7 +142,7 @@ tbody {
 </p>
 
 <form action = "*" onsubmit = "return false;">
-<table >
+<table class="option">
 <tr><th colspan="2">查詢條件</th></tr>
 <tr><td>特技名</td><td class="left">
 <label><input id="sna" type="text" size="40" onfocus="tm_start();" onblur="tm_Off();"/></label>&nbsp;
