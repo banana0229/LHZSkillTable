@@ -178,8 +178,7 @@ table.option {
 </td></tr>
 <tr><td>戰鬥/一般</td><td class="left">
 <label><input id="bat" type="checkbox" onchange="reloadData();" checked=""/> 戰鬥</label>&nbsp;
-<label><input id="nor" type="checkbox" onchange="reloadData();" checked=""/> 一般</label>&nbsp;
-<label><input id="ex" type="checkbox" onchange="reloadData();" checked=""/> EX</label>&nbsp;<br/>
+<label><input id="nor" type="checkbox" onchange="reloadData();" checked=""/> 一般</label>&nbsp;<br/>
 </td></tr>
 <tr><td>時機</td><td class="left">
 <label><input id="psi" type="checkbox" onchange="reloadData();"/> 常駐</label>&nbsp;
@@ -341,7 +340,6 @@ function reloadData() {
 
   var bat = document.getElementById('bat');
   var nor = document.getElementById('nor');
-  var ex = document.getElementById('ex');
 
   var efe = document.getElementById('efe').value;
   var sna = document.getElementById('sna').value;
@@ -369,7 +367,7 @@ function reloadData() {
       break;
     }
   }
-  for(var i=29; i < 48; i++) {
+  for(var i=28; i < 47; i++) {
     if(document.forms[0].elements[i].checked == true){
       f2 = 1;
       break;
@@ -383,7 +381,7 @@ function reloadData() {
     f6 = 1;
     var s_name = escape(sna);
   }
-  for(var i=48; i < 58; i++) {
+  for(var i=47; i < 57; i++) {
     if(document.forms[0].elements[i].checked == true){
       f7 = 1;
       break;
@@ -405,12 +403,9 @@ function reloadData() {
       if(!etc.checked && skills[i].post == "その他"){
         continue;
       }
-      if((!bk1.checked || !bk2.checked || !etc.checked) && skills[i].post === null){
-        continue;
-      }
     }
     var post1 = skills[i].post;
-    post1 = post1 === null ? null : post1.replace("その他", "Gz");
+    post1 = post1.replace("その他", "Gz");
     var type2 = skills[i].type;
     var f4 = 0;//効果ノチェック
     //if(!ads.checked && skills[i].function.match(/Ｂ２/)) {
@@ -422,10 +417,10 @@ function reloadData() {
     if(!nor.checked && type2 == "一般") {
       continue;
     }
-    if(!ex.checked && type2 == "EXパワー") {
+    if(type2 == "EXパワー")
+    {
       continue;
     }
-
     if(f1 == 0 && f2 == 0 && f3 == 0 && tna == "" && f6 == 0 && f7 == 0) {
       continue;
     }
@@ -702,7 +697,7 @@ function reloadData() {
 
     var efectCol = document.createElement('td');
     if(fct.checked) {
-      efectCol.innerHTML=skills[i].function + (post1 === null ? "" : "(" + post1 + ")");
+      efectCol.innerHTML=skills[i].function + "(" + post1 + ")";
     }else{
       efectCol.innerHTML="";
     }
@@ -760,7 +755,7 @@ window.onload= function() {
         append_request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/zh/ex_powers.json", false);
         append_request.send();
         translationData = JSON.parse(append_request.responseText);
-        push_skill(translationData.ex_powers);
+        jsonps(translationData)
 };
 
 // 初期化2
@@ -781,11 +776,11 @@ var jsonp = function(data) {
 }
 var jsonps = function(data) {
   ad_skill = data.ad_skill;
-  push_skill(ad_skill);
+  push_skill();
 }
 
 //スキル追加
-function push_skill(ad_skill) {
+function push_skill() {
   var j = 0;
   var end = skills.length + ad_skill.length;
   for(var i=skills.length; i < end ;i++){
