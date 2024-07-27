@@ -424,8 +424,8 @@ function reloadData() {
     var type1 = skills[i].job_type;
     type1 = type1.replace("共通特技", "共通");
     type1 = type1.replace("種族特技:", "");
-    type1 = type1.replace("アーキ職業特技:", "");
-    type1 = type1.replace("メイン職業特技:", "");
+    type1 = type1.replace("基礎職業特技:", "");
+    type1 = type1.replace("主職業特技:", "");
 
     if(f1 == 1){
     if(!com.checked && type1 == "共通") {
@@ -438,13 +438,13 @@ function reloadData() {
       if(!elf.checked && type1 == "精靈") {
         continue;
       }
-      if(!dwf.checked && type1 == "ドワーフ") {
+      if(!dwf.checked && type1 == "矮人") {
         continue;
       }
-      if(!alv.checked && type1 == "ハーフアルヴ") {
+      if(!alv.checked && type1 == "半祖族") {
         continue;
       }
-      if(!cat.checked && type1 == "猫人族") {
+      if(!cat.checked && type1 == "貓人族") {
         continue;
       }
       if(!wlf.checked && type1 == "狼牙族") {
@@ -457,41 +457,41 @@ function reloadData() {
         continue;
       }
 
-      if(!wor.checked && type1 == "戦士職") {
+      if(!wor.checked && type1 == "戰士職") {
         continue;
       }
       if(!hel.checked && type1 == "回復職") {
         continue;
       }
-      if(!wep.checked && type1 == "武器攻撃職") {
+      if(!wep.checked && type1 == "武器攻擊職") {
         continue;
       }
-      if(!mag.checked && type1 == "魔法攻撃職") {
+      if(!mag.checked && type1 == "魔法攻擊職") {
         continue;
       }
 
-      if(!gud.checked && type1 == "守護戦士") {
+      if(!gud.checked && type1 == "守護戰士") {
         continue;
       }
       if(!sam.checked && type1 == "武士") {
         continue;
       }
-      if(!mnk.checked && type1 == "武闘家") {
+      if(!mnk.checked && type1 == "武鬥家") {
         continue;
       }
-      if(!clr.checked && type1 == "施療神官") {
+      if(!clr.checked && type1 == "牧師") {
         continue;
       }
-      if(!drd.checked && type1 == "森呪遣い") {
+      if(!drd.checked && type1 == "德魯伊") {
         continue;
       }
-      if(!kng.checked && type1 == "神祇官") {
+      if(!kng.checked && type1 == "神官") {
         continue;
       }
       if(!ass.checked && type1 == "暗殺者") {
         continue;
       }
-      if(!swb.checked && type1 == "盗剣士") {
+      if(!swb.checked && type1 == "盜劍士") {
         continue;
       }
       if(!brd.checked && type1 == "吟遊詩人") {
@@ -503,7 +503,7 @@ function reloadData() {
       if(!smn.checked && type1 == "召喚術師") {
         continue;
       }
-      if(!enc.checked && type1 == "付与術師") {
+      if(!enc.checked && type1 == "賦予術師") {
         continue;
       }
     }
