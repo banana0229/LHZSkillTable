@@ -750,6 +750,12 @@ window.onload= function() {
         request.send();
         let translationData = JSON.parse(request.responseText);
         jsonp(translationData)
+
+  var append_request = new XMLHttpRequest();
+        append_request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/zh/ex_powers.json", false);
+        append_request.send();
+        translationData = JSON.parse(append_request.responseText);
+        jsonps(translationData)
 };
 
 // 初期化2
