@@ -149,9 +149,9 @@ table.option {
 </td></tr>
 <tr><td>類別</td><td class="left">
 <label><input id="com" type="checkbox" onchange="reloadData();"/> 共通</label>&nbsp;<br>
-<label><input id="hum" type="checkbox" onchange="reloadData();"/> 人類</label>&nbsp;
-<label><input id="elf" type="checkbox" onchange="reloadData();"/> 精靈</label>&nbsp;
-<label><input id="dwf" type="checkbox" onchange="reloadData();"/> 矮人</label>&nbsp;
+<label><input id="hum" type="checkbox" onchange="reloadData();"/> 人族</label>&nbsp;
+<label><input id="elf" type="checkbox" onchange="reloadData();"/> 精靈族</label>&nbsp;
+<label><input id="dwf" type="checkbox" onchange="reloadData();"/> 矮人族</label>&nbsp;
 <label><input id="alv" type="checkbox" onchange="reloadData();"/> 半祖族</label>&nbsp;
 <label><input id="cat" type="checkbox" onchange="reloadData();"/> 貓人族</label>&nbsp;
 <label><input id="wlf" type="checkbox" onchange="reloadData();"/> 狼牙族</label>&nbsp;
@@ -169,7 +169,7 @@ table.option {
 <label><input id="clr" type="checkbox" onchange="reloadData();"/> 牧師</label>&nbsp;
 <label><input id="drd" type="checkbox" onchange="reloadData();"/> 德魯伊</label>&nbsp;
 <label><input id="kng" type="checkbox" onchange="reloadData();"/> 神官</label>&nbsp;
-<label><input id="ass" type="checkbox" onchange="reloadData();"/> 暗殺者</label>&nbsp;
+<label><input id="ass" type="checkbox" onchange="reloadData();"/> 刺客</label>&nbsp;
 <label><input id="swb" type="checkbox" onchange="reloadData();"/> 盜劍士</label>&nbsp;
 <label><input id="brd" type="checkbox" onchange="reloadData();"/> 吟遊詩人</label>&nbsp;
 <label><input id="scr" type="checkbox" onchange="reloadData();"/> 妖術師</label>&nbsp;
@@ -436,13 +436,13 @@ function reloadData() {
       continue;
     }
 
-      if(!hum.checked && type1 == "人類") {
+      if(!hum.checked && type1 == "人族") {
         continue;
       }
-      if(!elf.checked && type1 == "精靈") {
+      if(!elf.checked && type1 == "精靈族") {
         continue;
       }
-      if(!dwf.checked && type1 == "矮人") {
+      if(!dwf.checked && type1 == "矮人族") {
         continue;
       }
       if(!alv.checked && type1 == "半祖族") {
@@ -492,7 +492,7 @@ function reloadData() {
       if(!kng.checked && type1 == "神官") {
         continue;
       }
-      if(!ass.checked && type1 == "暗殺者") {
+      if(!ass.checked && type1 == "刺客") {
         continue;
       }
       if(!swb.checked && type1 == "盜劍士") {
