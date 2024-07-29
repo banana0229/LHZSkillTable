@@ -179,6 +179,7 @@ table.option {
 <tr><td>戰鬥/一般</td><td class="left">
 <label><input id="bat" type="checkbox" onchange="reloadData();" checked=""/> 戰鬥</label>&nbsp;
 <label><input id="nor" type="checkbox" onchange="reloadData();" checked=""/> 一般</label>&nbsp;
+<label><input id="basic" type="checkbox" onchange="reloadData();"/> 基本</label>&nbsp;
 <label><input id="ex" type="checkbox" onchange="reloadData();"/> EX</label>&nbsp;<br/>
 </td></tr>
 <tr><td>時機</td><td class="left">
@@ -341,6 +342,7 @@ function reloadData() {
 
   var bat = document.getElementById('bat');
   var nor = document.getElementById('nor');
+  var basic = document.getElementById('basic');
   var ex = document.getElementById('ex');
 
   var efe = document.getElementById('efe').value;
@@ -369,7 +371,7 @@ function reloadData() {
       break;
     }
   }
-  for(var i=29; i < 48; i++) {
+  for(var i=30; i < 49; i++) {
     if(document.forms[0].elements[i].checked == true){
       f2 = 1;
       break;
@@ -383,7 +385,7 @@ function reloadData() {
     f6 = 1;
     var s_name = escape(sna);
   }
-  for(var i=48; i < 58; i++) {
+  for(var i=49; i < 59; i++) {
     if(document.forms[0].elements[i].checked == true){
       f7 = 1;
       break;
@@ -420,6 +422,9 @@ function reloadData() {
       continue;
     }
     if(!nor.checked && type2 == "一般") {
+      continue;
+    }
+    if(!basic.checked && type2 == "基本動作") {
       continue;
     }
     if(!ex.checked && type2 == "ex power") {
@@ -754,6 +759,11 @@ window.onload= function() {
         request.send();
         let translationData = JSON.parse(request.responseText);
         jsonp(translationData)
+  var basic_request = new XMLHttpRequest();
+        basic_request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/zh/basicActions.json", false);
+        basic_request.send();
+        translationData = JSON.parse(basic_request.responseText);
+        push_skill(translationData.basicActions)
   var ex_request = new XMLHttpRequest();
         ex_request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/zh/ex_powers.json", false);
         ex_request.send();
@@ -816,14 +826,14 @@ function tag_list() {
 }
 
 function check_all() {
-  for(var i=1; i < 57; i++) {
+  for(var i=1; i < 59; i++) {
     document.forms[0].elements[i].checked = true;
   }
   reloadData();
 }
 
 function reset_all() {
-  for(var i=1; i < 57; i++) {
+  for(var i=1; i < 59; i++) {
     document.forms[0].elements[i].checked = false;
   }
   document.forms[0].elements[26].checked = true;
@@ -831,10 +841,10 @@ function reset_all() {
   document.getElementById('efe').value = "";
   document.getElementById('sna').value = "";
   document.getElementById('tna').selectedIndex = 0;
-  document.forms[0].elements[61].checked = false;
-  document.forms[0].elements[63].checked = true;
+  document.forms[0].elements[62].checked = false;
   document.forms[0].elements[64].checked = true;
   document.forms[0].elements[65].checked = true;
+  document.forms[0].elements[66].checked = true;
   reloadData();
 }
 </script>
