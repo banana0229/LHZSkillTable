@@ -214,7 +214,7 @@ table.option {
 <label><input id="hon" type="checkbox" onchange="reloadData();"/> 見下文</label>&nbsp;
 <label><input id="srd" type="checkbox" onchange="reloadData();"/> 根據SR</label>&nbsp;
 </td></tr>
-<tr><td>効果</td><td class="left">
+<tr><td>效果</td><td class="left">
 <label><input id="efe" type="text" size="40" onfocus="tm_start();" onblur="tm_Off();"/></label>&nbsp;(以空格切開後，可做or查詢)
 </td></tr>
 <tr><td>標籤</td><td class="left">
@@ -258,10 +258,24 @@ table.option {
 
 <script type="text/javascript">
 
+//#region SkillType
+const enum_other = 0;
+const enum_skill = 1;
+const enum_basic = 2;
+const enum_ex = 3; 
+//#endregion
+
+//#region expanded_skill
+var expanded_skill_dict = {};
+//#endregion
+
+
+
 var skills;
-var ad_skill;
+var custom_skill_dict = {};
 var tagl = [""];
 var timer1;
+
 
 function Sleep( T ){
    var d1 = new Date().getTime();
@@ -758,34 +772,61 @@ window.onload= function() {
         request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/zh/skills.json", false);
         request.send();
         let translationData = JSON.parse(request.responseText);
-        push_skill(translationData.skills)
+        push_skill_dict(translationData.skills, {"type":enum_skill})
+
   var basic_request = new XMLHttpRequest();
         basic_request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/zh/basicActions.json", false);
         basic_request.send();
         translationData = JSON.parse(basic_request.responseText);
-        push_skill(translationData.basicActions)
+        push_skill_dict(translationData.basicActions, {"type":enum_basic})
+
   var ex_request = new XMLHttpRequest();
         ex_request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/zh/ex_powers.json", false);
         ex_request.send();
         translationData = JSON.parse(ex_request.responseText);
-        push_skill(translationData.ex_powers)
+        push_skill_dict(translationData.ex_powers, {"type":enum_ex})
 
+  merge_skill_dict();
   reload_tags();
 };
 
-//スキル追加
-function push_skill(ad_skill) {
-  if(skills === undefined || skills === null)
+function push_skill_dict(ad_skill, options) {
+  let skills;
+  if(options["type"])
   {
-    skills = ad_skill;
-    return;
+    expanded_skill_dict[options["type"]] = push_skill(expanded_skill_dict[options["type"]], ad_skill);
+  }
+  else
+  {
+    expanded_skill_dict[enum_other] = push_skill(expanded_skill_dict[enum_other], ad_skill);
+  }
+}
+
+function merge_skill_dict()
+{
+  for (let dict_key in expanded_skill_dict) {
+      let skill_data = expanded_skill_dict[dict_key];
+
+      if (skill_data != undefined && skill_data != null) {
+        skills = push_skill(skills, skill_data)
+      }
+  }
+}
+
+//スキル追加
+function push_skill(container, ad_skill) {
+  if(container == undefined || container == null)
+  {
+    container = ad_skill;
+    return container;
   }
   var j = 0;
-  var end = skills.length + ad_skill.length;
-  for(var i=skills.length; i < end ;i++){
-    skills[i] = ad_skill[j];
+  var end = container.length + ad_skill.length;
+  for(var i=container.length; i < end ;i++){
+    container[i] = ad_skill[j];
     j++;
   }
+  return container;
 }
 
 function reload_tags()
