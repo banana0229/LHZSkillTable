@@ -758,7 +758,7 @@ window.onload= function() {
         request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/zh/skills.json", false);
         request.send();
         let translationData = JSON.parse(request.responseText);
-        jsonp(translationData)
+        push_skill(translationData.skills)
   var basic_request = new XMLHttpRequest();
         basic_request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/zh/basicActions.json", false);
         basic_request.send();
@@ -769,37 +769,34 @@ window.onload= function() {
         ex_request.send();
         translationData = JSON.parse(ex_request.responseText);
         push_skill(translationData.ex_powers)
-};
 
-// 初期化2
-var jsonp = function(data) {
-  skills = data.skills;
-  tag_list();
-  var tag_box = "";
-  for(var i=0; i<tagl.length; i++ ){
-    tag_box += "<option value='" + i + "'>" + tagl[i] + "</option>";
-  }
-  tag_box = "<select id='tna' name='tna' size='1' tabindex='0' onchange='reloadData();'/>" + tag_box + "</select>";
-  //alert(document.getElementById('pre_sets').innerHTML);
-  document.getElementById('tag_list').innerHTML = tag_box;
-  //var script = document.createElement('script');
-  //script.src = "http://unonek.sakura.ne.jp/lh/b2txt";
-  //document.body.appendChild(script);
-  reloadData();
-}
-var jsonps = function(data) {
-  ad_skill = data.ad_skill;
-  push_skill(ad_skill);
-}
+  reload_tags();
+};
 
 //スキル追加
 function push_skill(ad_skill) {
+  if(skills === undefined || skills === null)
+  {
+    skills = ad_skill;
+    return;
+  }
   var j = 0;
   var end = skills.length + ad_skill.length;
   for(var i=skills.length; i < end ;i++){
     skills[i] = ad_skill[j];
     j++;
   }
+}
+
+function reload_tags()
+{
+  tag_list();
+  var tag_box = "";
+  for(var i=0; i<tagl.length; i++ ){
+    tag_box += "<option value='" + i + "'>" + tagl[i] + "</option>";
+  }
+  tag_box = "<select id='tna' name='tna' size='1' tabindex='0' onchange='reloadData();'/>" + tag_box + "</select>";
+  document.getElementById('tag_list').innerHTML = tag_box;
 }
 
 function escape(str) {
