@@ -472,6 +472,13 @@ http://opensource.org/licenses/mit-license.php
 				post1 = post1 === null ? null : post1.replace("その他", "Gz");
 				var type2 = skills[i].type;
 				var f4 = 0;//効果ノチェック
+        if(document.forms[0].elements[26].checked == false &&
+          document.forms[0].elements[27].checked == false &&
+          (document.forms[0].elements[28].checked ||
+          document.forms[0].elements[29].checked)
+        ) {
+          f4 = 1;
+        }
 				//if(!ads.checked && skills[i].function.match(/Ｂ２/)) {
 				//continue;
 				//}
@@ -487,7 +494,7 @@ http://opensource.org/licenses/mit-license.php
 				if (!ex.checked && type2 == "ex power") {
 					continue;
 				}
-				if (f1 == 0 && f2 == 0 && f3 == 0 && tna == "" && f6 == 0 && f7 == 0) {
+				if (f1 == 0 && f2 == 0 && f3 == 0 && f4 == 0 && tna == "" && f6 == 0 && f7 == 0) {
 					continue;
 				}
 
