@@ -835,11 +835,11 @@ http://opensource.org/licenses/mit-license.php
 
 		function push_skill_dict(ad_skill, options) {
 			let skills;
-			if (options["type"]) {
-				skill_dict[options["type"]] = push_skill(skill_dict[options["type"]], ad_skill);
+			if (options == undefined || options == null || !options["type"]) {
+				skill_dict[enum_other] = push_skill(skill_dict[enum_other], ad_skill);
 			}
 			else {
-				skill_dict[enum_other] = push_skill(skill_dict[enum_other], ad_skill);
+				skill_dict[options["type"]] = push_skill(skill_dict[options["type"]], ad_skill);
 			}
 		}
 
