@@ -830,17 +830,27 @@ http://opensource.org/licenses/mit-license.php
 
 			merge_skill_dict();
 			reload_tags();
-			refresh_index();
+			remove_duplicate_id();
+			//console.log(index_dict);
 		};
 
-		function push_skill_dict(ad_skill, options) {
-			let skills;
-			if (options == undefined || options == null || !options["type"]) {
-				skill_dict[enum_other] = push_skill(skill_dict[enum_other], ad_skill);
+		function push_custom_skill(ad_skill, options) {
+
+		}
+
+		function push_skill_dict(ad_skill, options = {}) {
+			let container = skill_dict;
+			let type = enum_other;
+
+			if (options["container"])
+			{
+				container = options["container"];
 			}
-			else {
-				skill_dict[options["type"]] = push_skill(skill_dict[options["type"]], ad_skill);
+			if (options["type"]) {
+				type = options["type"];
 			}
+
+			container[type] = push_skill(container[type], ad_skill);
 		}
 
 		function merge_skill_dict() {
@@ -855,7 +865,7 @@ http://opensource.org/licenses/mit-license.php
 
 		//スキル追加
 		function push_skill(container, ad_skill) {
-			if (container == undefined || container == null) {
+			if (!container) {
 				container = ad_skill;
 				return container;
 			}
@@ -878,7 +888,8 @@ http://opensource.org/licenses/mit-license.php
 			document.getElementById('tag_list').innerHTML = tag_box;
 		}
 
-		function refresh_index() {
+		function remove_duplicate_id() {
+			//TODO: remove_duplicate
 			index_dict = {}
 			for (let dict_key in skill_dict) {
 				let skill_list = skill_dict[dict_key];
@@ -886,6 +897,7 @@ http://opensource.org/licenses/mit-license.php
 				index_dict[dict_key] = {};
 				for (var i = 0; i < skill_list.length; i++) {
 					let skill = skill_list[i]
+					//如果index_dict[dict_key][skill["id"]]已有內容，則代表有重複資料
 					index_dict[dict_key][skill["id"]] = i;
 				}
 			}
