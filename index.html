@@ -19,6 +19,12 @@ http://opensource.org/licenses/mit-license.php
 			color: #222;
 		}
 
+    .hidden { display: none; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; }
+        .modal-window { background: #fff; padding: 20px; border-radius: 5px; }
+		.modal-content { margin-top: 10px; }
+        .modal.show { display: flex; }
+
 		a:link, a:visited, a:link, a:visited {
 			color: #333;
 			text-decoration: underline;
@@ -157,6 +163,23 @@ http://opensource.org/licenses/mit-license.php
 		該工具為以<a href="https://unonek.sakura.ne.jp/lh/skl.html">[LHTRPG 特技検索]</a>為基礎，進行修改的中文版本。<br />
 		目前還在開發中，翻譯資料將會陸續補上。<br />
 	</p>
+  
+  
+  <div id="modal" class="modal">
+    <div class="modal-window">
+      <input type="file" id="fileInput"  accept=".json">
+            <div class="modal-content">
+        選擇分類
+      </div>
+            <select id="typeSelect">
+                <option value="skills">特技</option>
+                <option value="basicActions">基本動作</option>
+                <option value="ex_powers">ex power</option>
+            </select>
+            <button id="confirmBtn" disabled>確認</button>
+            <button id="cancelBtn">取消</button>
+        </div>
+    </div>
 
 	<form action="*" onsubmit="return false;">
 		<table class="option">
@@ -264,7 +287,9 @@ http://opensource.org/licenses/mit-license.php
 					<label><input id="fct" type="checkbox" onchange="reloadData();" checked="" /> 顯示效果</label>&nbsp;
 					<label><input id="exp" type="checkbox" onchange="reloadData();" /> 顯示說明</label>&nbsp;&nbsp;&nbsp;
 					<input type="button" name="c_all" value="全選" onMouseUp="check_all()">&nbsp;
-					<input type="button" name="r_all" value="清空" onMouseUp="reset_all()">&nbsp;<br />
+					<input type="button" name="r_all" value="清空" onMouseUp="reset_all()">&nbsp;
+          <input type="button" name="open_upload" value="上傳自訂特技" onMouseUp="open_upload_modal()" hidden>&nbsp;<br/>
+
 					查詢範圍：
 					<input id="bk1" type="checkbox" onchange="reloadData();" checked="" /> 基本(book1)</label>&nbsp;
 					<input id="bk2" type="checkbox" onchange="reloadData();" checked="" /> 拡張(book2)</label>&nbsp;
@@ -866,6 +891,7 @@ http://opensource.org/licenses/mit-license.php
 		}
 
 		function merge_skill_dict() {
+      //重複檢查改到這裡，這裡會做兩個dict的完全merge
 			for (let dict_key in skill_dict) {
 				let skill_list = skill_dict[dict_key];
 
@@ -968,6 +994,70 @@ http://opensource.org/licenses/mit-license.php
 			document.forms[0].elements[66].checked = true;
 			reloadData();
 		}
+
+    function open_upload_modal() {
+      document.getElementById('modal').classList.add('show');
+		}
+    function close_upload_modal() {
+      //隱藏彈窗
+			document.getElementById('modal').classList.remove('show');
+			//關閉確認
+			document.getElementById('confirmBtn').disabled = true;
+			//清除設定
+			document.getElementById('fileInput').value = '';
+			document.getElementById('typeSelect').value = "skills";
+		}
+    
+    function openjson_local(file, option = {}) {
+      let type = "skills";
+      if(option["type"]) {
+        type = option["type"];
+      }
+      let reader = new FileReader();
+      reader.readAsText(file, "UTF-8");
+      reader.onload = function () {
+        let uploaded_data = JSON.parse(reader.result);
+
+        if(type === "skills")
+        {
+            push_custom_skill(uploaded_data.skills, { "type": enum_skill });
+        }
+        else if (type === "basicActions")
+        {
+            push_custom_skill(uploaded_data.basicActions, { "type": enum_basic });
+        }
+        else if (type === "ex_powers")
+        {
+            push_custom_skill(uploaded_data.ex_powers, { "type": enum_ex });
+        }
+
+        close_upload_modal();
+      }
+    }
+
+    		//選擇檔案
+		document.getElementById('fileInput').addEventListener('change', function() {
+			//有上傳檔案才能確認
+    	let confirmBtn = document.getElementById('confirmBtn');
+			confirmBtn.disabled = !this.files.length;
+		});
+		//取消
+		document.getElementById('cancelBtn').addEventListener('click', function() {
+			close_upload_modal();
+		});
+		//確認
+		document.getElementById('confirmBtn').addEventListener('click', function() {
+			let fileInput = document.getElementById('fileInput');
+			let typeSelect = document.getElementById('typeSelect');
+			let file = fileInput.files[0];
+			let type = typeSelect.value;
+			
+			if (!file) {
+				alert('找不到指定檔案\n請重新上傳');
+				return;
+      }
+      openjson_local(file, {"type":type})
+		});
 	</script>
 </body>
 </html>
