@@ -308,7 +308,7 @@ http://opensource.org/licenses/mit-license.php
 
 		//#region expanded_skill
 		var skill_dict = {};
-		var index_dict = {};
+		var index_dict;
 		//#endregion
 
 
@@ -879,15 +879,13 @@ http://opensource.org/licenses/mit-license.php
 		}
 
 		function refresh_index() {
+			index_dict = {}
 			for (let dict_key in skill_dict) {
 				let skill_list = skill_dict[dict_key];
 
+				index_dict[dict_key] = {};
 				for (var i = 0; i < skill_list.length; i++) {
 					let skill = skill_list[i]
-					if(!index_dict[dict_key])
-					{
-						index_dict[dict_key] = {};
-					}
 					index_dict[dict_key][skill["id"]] = i;
 				}
 			}
