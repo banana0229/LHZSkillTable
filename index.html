@@ -884,7 +884,11 @@ http://opensource.org/licenses/mit-license.php
 
 				for (var i = 0; i < skill_list.length; i++) {
 					let skill = skill_list[i]
-					//console.log("type:"+dict_key + " index:" + i + " id:" + skill["id"]);
+					if(!index_dict[dict_key])
+					{
+						index_dict[dict_key] = {};
+					}
+					index_dict[dict_key][skill["id"]] = i;
 				}
 			}
 		}
