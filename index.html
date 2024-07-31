@@ -335,7 +335,7 @@ http://opensource.org/licenses/mit-license.php
 					<input id="bk1" type="checkbox" onchange="reloadData();" checked="" /> 基本(book1)</label>&nbsp;
 					<input id="bk2" type="checkbox" onchange="reloadData();" checked="" /> 拡張(book2)</label>&nbsp;
 					<input id="etc" type="checkbox" onchange="reloadData();" checked="" />
-					ウェンズディ・ガゼットのみに記載(Gz)</label>&nbsp;
+					ウェンズディ・ガゼット(Gz)</label>&nbsp;
 					<br />
 				</td>
 			</tr>
@@ -1075,8 +1075,7 @@ http://opensource.org/licenses/mit-license.php
 
 		function get_jp_effect(id, type_enum) {
 			//要知道傳來type是什麼，才知道id所代表的資料
-			return "";//"id:" + id+"("+type_enum+")";
-			//如果不再原始資料內(有日文資料)，就return "";
+			return "－";//"id:" + id+"("+type_enum+")"
 		}
 
 		function open_upload_modal() {
