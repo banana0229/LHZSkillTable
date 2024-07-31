@@ -322,11 +322,14 @@ http://opensource.org/licenses/mit-license.php
 				<td>選項</td>
 				<td class="left">
 					<label><input id="fct" type="checkbox" onchange="reloadData();" checked="" /> 顯示效果</label>&nbsp;
-					<label><input id="exp" type="checkbox" onchange="reloadData();" /> 顯示說明</label>&nbsp;&nbsp;&nbsp;
+					<label><input id="exp" type="checkbox" onchange="reloadData();" /> 顯示說明</label>&nbsp;
+					<label class="hidden"><input id="jp_fct" type="checkbox" onchange="reloadData();" />
+						顯示原文效果</label>&nbsp;&nbsp;&nbsp;
 					<input type="button" name="c_all" value="全選" onMouseUp="check_all()">&nbsp;
 					<input type="button" name="r_all" value="清空" onMouseUp="reset_all()">&nbsp;
 					<input type="button" name="open_upload" value="上傳自訂特技" onMouseUp="open_upload_modal()">&nbsp;
-					<input type="button" name="clear_upload" value="清除自訂特技" onMouseUp="clear_uploaded_data()">&nbsp;<br />
+					<input type="button" name="clear_upload" value="清除自訂特技"
+						onMouseUp="clear_uploaded_data()">&nbsp;<br />
 
 					查詢範圍：
 					<input id="bk1" type="checkbox" onchange="reloadData();" checked="" /> 基本(book1)</label>&nbsp;
@@ -354,6 +357,7 @@ http://opensource.org/licenses/mit-license.php
 				<th style="width:40px;">代價</th>
 				<th>限制</th>
 				<th>效果</th>
+				<th id="jp_fct_th" class="hidden">原文效果</th>
 			</tr>
 		</thead>
 		<tbody id="tablebody">
@@ -474,9 +478,12 @@ http://opensource.org/licenses/mit-license.php
 
 			var fct = document.getElementById('fct');
 			var exp = document.getElementById('exp');
+			var jp_fct = document.getElementById('jp_fct');
 			var bk1 = document.getElementById('bk1');
 			var bk2 = document.getElementById('bk2');
 			var etc = document.getElementById('etc');
+
+			var jp_fct_th = document.getElementById('jp_fct_th')
 
 			var f1 = 0;//特技種別のチェックあるなし
 			var f2 = 0;//タイミングのチェックあるなし
@@ -485,6 +492,7 @@ http://opensource.org/licenses/mit-license.php
 			//f5 タグの判定
 			var f6 = 0;//特技名の書き込みあるなし
 			var f7 = 0;//タイミングのチェックあるなし
+			var col_count = 13;
 
 			for (var i = 1; i < 26; i++) {
 				if (document.forms[0].elements[i].checked == true) {
@@ -511,6 +519,13 @@ http://opensource.org/licenses/mit-license.php
 					f7 = 1;
 					break;
 				}
+			}
+			if (jp_fct.checked) {
+				jp_fct_th.classList.remove('hidden');
+				col_count++;
+			}
+			else {
+				jp_fct_th.classList.add('hidden');
 			}
 			var tbody = document.getElementById("tablebody");
 			tbody.innerHTML = "";
@@ -839,6 +854,13 @@ http://opensource.org/licenses/mit-license.php
 					efectCol.innerHTML = "";
 				}
 				row.appendChild(efectCol);
+
+				if (jp_fct.checked) {
+					var jp_efectCol = document.createElement('td');
+					jp_efectCol.innerHTML = get_jp_effect(skills[i]["id"], enum_skill);
+					row.appendChild(jp_efectCol);
+				}
+
 				tbody.appendChild(row);
 
 				if (exp.checked) {
@@ -847,7 +869,7 @@ http://opensource.org/licenses/mit-license.php
 						row2.setAttribute("class", "odd");
 					}
 					var functionCol = document.createElement('td');
-					functionCol.setAttribute("colspan", "13");
+					functionCol.setAttribute("colspan", col_count);
 					functionCol.setAttribute("class", "left");
 					var funtionText = "";
 					var explainText = "";
@@ -956,7 +978,7 @@ http://opensource.org/licenses/mit-license.php
 				if (skill_list != undefined && skill_list != null) {
 					skills = push_skill(skills, skill_list)
 				}
-			}	
+			}
 		}
 
 		//スキル追加
@@ -1049,6 +1071,12 @@ http://opensource.org/licenses/mit-license.php
 			document.forms[0].elements[65].checked = true;
 			document.forms[0].elements[66].checked = true;
 			reloadData();
+		}
+
+		function get_jp_effect(id, type_enum) {
+			//要知道傳來type是什麼，才知道id所代表的資料
+			return "";//"id:" + id+"("+type_enum+")";
+			//如果不再原始資料內(有日文資料)，就return "";
 		}
 
 		function open_upload_modal() {
