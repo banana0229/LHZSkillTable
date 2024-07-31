@@ -325,7 +325,7 @@ http://opensource.org/licenses/mit-license.php
 					<label><input id="exp" type="checkbox" onchange="reloadData();" /> 顯示說明</label>&nbsp;&nbsp;&nbsp;
 					<input type="button" name="c_all" value="全選" onMouseUp="check_all()">&nbsp;
 					<input type="button" name="r_all" value="清空" onMouseUp="reset_all()">&nbsp;
-					<input type="button" name="open_upload" value="上傳自訂特技" onMouseUp="open_upload_modal()" hidden>&nbsp;<br />
+					<input type="button" name="open_upload" value="上傳自訂特技" onMouseUp="open_upload_modal()">&nbsp;<br />
 
 					查詢範圍：
 					<input id="bk1" type="checkbox" onchange="reloadData();" checked="" /> 基本(book1)</label>&nbsp;
@@ -903,7 +903,7 @@ http://opensource.org/licenses/mit-license.php
 
 			merge_skill_dict();
 			reload_tags();
-			remove_duplicate_id();
+			//remove_duplicate_id();
 
 			//console.log(index_dict);
 		};
@@ -928,6 +928,7 @@ http://opensource.org/licenses/mit-license.php
 		}
 
 		function merge_skill_dict() {
+			skills = [];
 			//重複檢查改到這裡，這裡會做兩個dict的完全merge
 			for (let dict_key in skill_dict) {
 				let skill_list = skill_dict[dict_key];
@@ -936,6 +937,14 @@ http://opensource.org/licenses/mit-license.php
 					skills = push_skill(skills, skill_list)
 				}
 			}
+
+			for (let dict_key in custom_skill_dict) {
+				let skill_list = custom_skill_dict[dict_key];
+
+				if (skill_list != undefined && skill_list != null) {
+					skills = push_skill(skills, skill_list)
+				}
+			}	
 		}
 
 		//スキル追加
@@ -1065,6 +1074,9 @@ http://opensource.org/licenses/mit-license.php
 				}
 
 				close_upload_modal();
+				merge_skill_dict();
+				reload_tags();
+				reloadData();
 			}
 		}
 
