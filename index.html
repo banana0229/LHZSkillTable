@@ -7,30 +7,61 @@ http://opensource.org/licenses/mit-license.php
 -->
 <!DOCTYPE HTML>
 <html lang="zh">
+
 <head>
 	<meta charset="UTF-8">
 	<title>LHTRPG 特技查詢</title>
 	<style>
 		html,
 		body {
-			font-family: 'Lucida Grande','Lucida Sans Unicode', 'Lucida Sans Regular', Tahoma, Verdana, sans-serif;
+			font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans Regular', Tahoma, Verdana, sans-serif;
 			font-size: 0.7em;
 			line-height: 2.5em;
 			color: #222;
 		}
 
-    .hidden { display: none; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; }
-        .modal-window { background: #fff; padding: 20px; border-radius: 5px; }
-		.modal-content { margin-top: 10px; }
-        .modal.show { display: flex; }
+		.hidden {
+			display: none;
+		}
 
-		a:link, a:visited, a:link, a:visited {
+		.modal {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.5);
+			justify-content: center;
+			align-items: center;
+		}
+
+		.modal-window {
+			background: #fff;
+			padding: 20px;
+			border-radius: 5px;
+		}
+
+		.modal-content {
+			margin-top: 10px;
+		}
+
+		.modal.show {
+			display: flex;
+		}
+
+		a:link,
+		a:visited,
+		a:link,
+		a:visited {
 			color: #333;
 			text-decoration: underline;
 		}
 
-		a:hover, a:active, a:hover, a:active {
+		a:hover,
+		a:active,
+		a:hover,
+		a:active {
 			color: #999;
 			text-decoration: underline;
 		}
@@ -40,7 +71,8 @@ http://opensource.org/licenses/mit-license.php
 			padding: 0;
 		}
 
-		input, select {
+		input,
+		select {
 			vertical-align: middle;
 		}
 
@@ -62,132 +94,136 @@ http://opensource.org/licenses/mit-license.php
 			margin-top: 10px;
 		}
 
-			table tr.odd {
-				background-color: #eee;
-			}
+		table tr.odd {
+			background-color: #eee;
+		}
 
-			table th {
-				border: solid 1px #ccc;
-				font-weight: normal;
-				color: #fff;
-				padding: 2px;
-				background-color: #666;
-			}
+		table th {
+			border: solid 1px #ccc;
+			font-weight: normal;
+			color: #fff;
+			padding: 2px;
+			background-color: #666;
+		}
 
-			table td {
-				border: solid 1px #ccc;
-				text-align: center;
-			}
+		table td {
+			border: solid 1px #ccc;
+			text-align: center;
+		}
 
-			table.nostyle {
-				width: auto;
-				#width:1500px;
-				border-spacing: 0;
-				font-size: 13px;
-			}
+		table.nostyle {
+			width: auto;
+			#width: 1500px;
+			border-spacing: 0;
+			font-size: 13px;
+		}
 
-				table.nostyle th {
-					color: #000;
-					padding: 8px 15px;
-					background: #eee;
-					background: -moz-linear-gradient(#eee, #ddd 50%);
-					background: -webkit-gradient(linear, 100% 0%, 100% 50%, from(#eee), to(#ddd));
-					font-weight: bold;
-					border-top: 1px solid #aaa;
-					border-bottom: 1px solid #aaa;
-					line-height: 120%;
-					text-align: center;
-					text-shadow: 0 -1px 0 rgba(255,255,255,0.9);
-					box-shadow: 0px 1px 1px rgba(255,255,255,0.3) inset;
-				}
+		table.nostyle th {
+			color: #000;
+			padding: 8px 15px;
+			background: #eee;
+			background: -moz-linear-gradient(#eee, #ddd 50%);
+			background: -webkit-gradient(linear, 100% 0%, 100% 50%, from(#eee), to(#ddd));
+			font-weight: bold;
+			border-top: 1px solid #aaa;
+			border-bottom: 1px solid #aaa;
+			line-height: 120%;
+			text-align: center;
+			text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.9);
+			box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.3) inset;
+		}
 
-					table.nostyle th:first-child {
-						border-left: 1px solid #aaa;
-						border-radius: 5px 0 0 0;
-					}
+		table.nostyle th:first-child {
+			border-left: 1px solid #aaa;
+			border-radius: 5px 0 0 0;
+		}
 
-					table.nostyle th:last-child {
-						border-radius: 0 5px 0 0;
-						border-right: 1px solid #aaa;
-						#box-shadow: 2px 2px 1px rgba(0,0,0,0.1);
-					}
+		table.nostyle th:last-child {
+			border-radius: 0 5px 0 0;
+			border-right: 1px solid #aaa;
+			#box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.1);
+		}
 
-				table.nostyle tr td {
-					padding: 8px 15px;
-					text-align: center;
-				}
+		table.nostyle tr td {
+			padding: 8px 15px;
+			text-align: center;
+		}
 
-					table.nostyle tr td:first-child {
-						border-left: 1px solid #aaa;
-					}
+		table.nostyle tr td:first-child {
+			border-left: 1px solid #aaa;
+		}
 
-					table.nostyle tr td:last-child {
-						border-right: 1px solid #aaa;
-						#box-shadow: 2px 2px 1px rgba(0,0,0,0.1);
-					}
+		table.nostyle tr td:last-child {
+			border-right: 1px solid #aaa;
+			#box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.1);
+		}
 
-				table.nostyle tr {
-					background: #fff;
-				}
+		table.nostyle tr {
+			background: #fff;
+		}
 
-					table.nostyle tr:nth-child(2n+1) {
-						background: #f5f5f5;
-					}
+		table.nostyle tr:nth-child(2n+1) {
+			background: #f5f5f5;
+		}
 
-					table.nostyle tr:last-child td {
-						border-bottom: 1px solid #aaa;
-						#box-shadow: 2px 2px 1px rgba(0,0,0,0.1);
-					}
+		table.nostyle tr:last-child td {
+			border-bottom: 1px solid #aaa;
+			#box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.1);
+		}
 
-						table.nostyle tr:last-child td:first-child {
-							border-radius: 0 0 0 5px;
-						}
+		table.nostyle tr:last-child td:first-child {
+			border-radius: 0 0 0 5px;
+		}
 
-						table.nostyle tr:last-child td:last-child {
-							border-radius: 0 0 5px 0;
-						}
+		table.nostyle tr:last-child td:last-child {
+			border-radius: 0 0 5px 0;
+		}
 
-					table.nostyle tr:hover {
-						background: #eee;
-						#cursor:pointer;
-					}
+		table.nostyle tr:hover {
+			background: #eee;
+			#cursor: pointer;
+		}
 
-			table.option {
-				font-size: 1.2em;
-			}
+		table.option {
+			font-size: 1.2em;
+		}
 	</style>
 </head>
+
 <body leftmargin="30" topmargin="10" rightmargin="30" bottommargin="10">
 	<h3>LHTRPG 特技查詢</h3>
 	<p>
 		該工具為以<a href="https://unonek.sakura.ne.jp/lh/skl.html">[LHTRPG 特技検索]</a>為基礎，進行修改的中文版本。<br />
 		目前還在開發中，翻譯資料將會陸續補上。<br />
 	</p>
-  
-  
-  <div id="modal" class="modal">
-    <div class="modal-window">
-      <input type="file" id="fileInput"  accept=".json">
-            <div class="modal-content">
-        選擇分類
-      </div>
-            <select id="typeSelect">
-                <option value="skills">特技</option>
-                <option value="basicActions">基本動作</option>
-                <option value="ex_powers">ex power</option>
-            </select>
-            <button id="confirmBtn" disabled>確認</button>
-            <button id="cancelBtn">取消</button>
-        </div>
-    </div>
+
+
+	<div id="modal" class="modal">
+		<div class="modal-window">
+			<input type="file" id="fileInput" accept=".json">
+			<div class="modal-content">
+				選擇分類
+			</div>
+			<select id="typeSelect">
+				<option value="skills">特技</option>
+				<option value="basicActions">基本動作</option>
+				<option value="ex_powers">ex power</option>
+			</select>
+			<button id="confirmBtn" disabled>確認</button>
+			<button id="cancelBtn">取消</button>
+		</div>
+	</div>
 
 	<form action="*" onsubmit="return false;">
 		<table class="option">
-			<tr><th colspan="2">查詢條件</th></tr>
+			<tr>
+				<th colspan="2">查詢條件</th>
+			</tr>
 			<tr>
 				<td>特技名</td>
 				<td class="left">
-					<label><input id="sna" type="text" size="40" onfocus="tm_start();" onblur="tm_Off();" /></label>&nbsp;
+					<label><input id="sna" type="text" size="40" onfocus="tm_start();"
+							onblur="tm_Off();" /></label>&nbsp;
 				</td>
 			</tr>
 			<tr>
@@ -272,7 +308,8 @@ http://opensource.org/licenses/mit-license.php
 			<tr>
 				<td>效果</td>
 				<td class="left">
-					<label><input id="efe" type="text" size="40" onfocus="tm_start();" onblur="tm_Off();" /></label>&nbsp;(以空格切開後，可做or查詢)
+					<label><input id="efe" type="text" size="40" onfocus="tm_start();"
+							onblur="tm_Off();" /></label>&nbsp;(以空格切開後，可做or查詢)
 				</td>
 			</tr>
 			<tr>
@@ -288,12 +325,13 @@ http://opensource.org/licenses/mit-license.php
 					<label><input id="exp" type="checkbox" onchange="reloadData();" /> 顯示說明</label>&nbsp;&nbsp;&nbsp;
 					<input type="button" name="c_all" value="全選" onMouseUp="check_all()">&nbsp;
 					<input type="button" name="r_all" value="清空" onMouseUp="reset_all()">&nbsp;
-          <input type="button" name="open_upload" value="上傳自訂特技" onMouseUp="open_upload_modal()" hidden>&nbsp;<br/>
+					<input type="button" name="open_upload" value="上傳自訂特技" onMouseUp="open_upload_modal()" hidden>&nbsp;<br />
 
 					查詢範圍：
 					<input id="bk1" type="checkbox" onchange="reloadData();" checked="" /> 基本(book1)</label>&nbsp;
 					<input id="bk2" type="checkbox" onchange="reloadData();" checked="" /> 拡張(book2)</label>&nbsp;
-					<input id="etc" type="checkbox" onchange="reloadData();" checked="" /> ウェンズディ・ガゼットのみに記載(Gz)</label>&nbsp;
+					<input id="etc" type="checkbox" onchange="reloadData();" checked="" />
+					ウェンズディ・ガゼットのみに記載(Gz)</label>&nbsp;
 					<br />
 				</td>
 			</tr>
@@ -497,13 +535,13 @@ http://opensource.org/licenses/mit-license.php
 				post1 = post1 === null ? null : post1.replace("その他", "Gz");
 				var type2 = skills[i].type;
 				var f4 = 0;//効果ノチェック
-        if(document.forms[0].elements[26].checked == false &&
-          document.forms[0].elements[27].checked == false &&
-          (document.forms[0].elements[28].checked ||
-          document.forms[0].elements[29].checked)
-        ) {
-          f4 = 1;
-        }
+				if (document.forms[0].elements[26].checked == false &&
+					document.forms[0].elements[27].checked == false &&
+					(document.forms[0].elements[28].checked ||
+						document.forms[0].elements[29].checked)
+				) {
+					f4 = 1;
+				}
 				//if(!ads.checked && skills[i].function.match(/Ｂ２/)) {
 				//continue;
 				//}
@@ -879,8 +917,7 @@ http://opensource.org/licenses/mit-license.php
 			let container = skill_dict;
 			let type = enum_other;
 
-			if (options["container"])
-			{
+			if (options["container"]) {
 				container = options["container"];
 			}
 			if (options["type"]) {
@@ -891,7 +928,7 @@ http://opensource.org/licenses/mit-license.php
 		}
 
 		function merge_skill_dict() {
-      //重複檢查改到這裡，這裡會做兩個dict的完全merge
+			//重複檢查改到這裡，這裡會做兩個dict的完全merge
 			for (let dict_key in skill_dict) {
 				let skill_list = skill_dict[dict_key];
 
@@ -935,12 +972,10 @@ http://opensource.org/licenses/mit-license.php
 				index_dict[dict_key] = {};
 				for (var i = 0; i < skill_list.length; i++) {
 					let skill = skill_list[i]
-					if(index_dict[dict_key][skill["id"]] == undefined)
-					{
+					if (index_dict[dict_key][skill["id"]] == undefined) {
 						index_dict[dict_key][skill["id"]] = i;
 					}
-					else
-					{
+					else {
 						//有重複資料，需要後蓋前，注意後續index
 						//什麼都不做的話會保留原始的index，但不會移除資料
 					}
@@ -995,11 +1030,11 @@ http://opensource.org/licenses/mit-license.php
 			reloadData();
 		}
 
-    function open_upload_modal() {
-      document.getElementById('modal').classList.add('show');
+		function open_upload_modal() {
+			document.getElementById('modal').classList.add('show');
 		}
-    function close_upload_modal() {
-      //隱藏彈窗
+		function close_upload_modal() {
+			//隱藏彈窗
 			document.getElementById('modal').classList.remove('show');
 			//關閉確認
 			document.getElementById('confirmBtn').disabled = true;
@@ -1007,57 +1042,56 @@ http://opensource.org/licenses/mit-license.php
 			document.getElementById('fileInput').value = '';
 			document.getElementById('typeSelect').value = "skills";
 		}
-    
-    function openjson_local(file, option = {}) {
-      let type = "skills";
-      if(option["type"]) {
-        type = option["type"];
-      }
-      let reader = new FileReader();
-      reader.readAsText(file, "UTF-8");
-      reader.onload = function () {
-        let uploaded_data = JSON.parse(reader.result);
 
-        if(type === "skills")
-        {
-            push_custom_skill(uploaded_data.skills, { "type": enum_skill });
-        }
-        else if (type === "basicActions")
-        {
-            push_custom_skill(uploaded_data.basicActions, { "type": enum_basic });
-        }
-        else if (type === "ex_powers")
-        {
-            push_custom_skill(uploaded_data.ex_powers, { "type": enum_ex });
-        }
+		function openjson_local(file, option = {}) {
+			let type = "skills";
+			if (option["type"]) {
+				type = option["type"];
+			}
 
-        close_upload_modal();
-      }
-    }
+			let reader = new FileReader();
+			reader.readAsText(file, "UTF-8");
+			reader.onload = function () {
+				let uploaded_data = JSON.parse(reader.result);
 
-    		//選擇檔案
-		document.getElementById('fileInput').addEventListener('change', function() {
+				if (type === "skills") {
+					push_custom_skill(uploaded_data.skills, { "type": enum_skill });
+				}
+				else if (type === "basicActions") {
+					push_custom_skill(uploaded_data.basicActions, { "type": enum_basic });
+				}
+				else if (type === "ex_powers") {
+					push_custom_skill(uploaded_data.ex_powers, { "type": enum_ex });
+				}
+
+				close_upload_modal();
+			}
+		}
+
+		//選擇檔案
+		document.getElementById('fileInput').addEventListener('change', function () {
 			//有上傳檔案才能確認
-    	let confirmBtn = document.getElementById('confirmBtn');
+			let confirmBtn = document.getElementById('confirmBtn');
 			confirmBtn.disabled = !this.files.length;
 		});
 		//取消
-		document.getElementById('cancelBtn').addEventListener('click', function() {
+		document.getElementById('cancelBtn').addEventListener('click', function () {
 			close_upload_modal();
 		});
 		//確認
-		document.getElementById('confirmBtn').addEventListener('click', function() {
+		document.getElementById('confirmBtn').addEventListener('click', function () {
 			let fileInput = document.getElementById('fileInput');
 			let typeSelect = document.getElementById('typeSelect');
 			let file = fileInput.files[0];
 			let type = typeSelect.value;
-			
+
 			if (!file) {
 				alert('找不到指定檔案\n請重新上傳');
 				return;
-      }
-      openjson_local(file, {"type":type})
+			}
+			openjson_local(file, { "type": type })
 		});
 	</script>
 </body>
+
 </html>
