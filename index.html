@@ -201,10 +201,10 @@ http://opensource.org/licenses/mit-license.php
 	<div id="modal" class="modal">
 		<div class="modal-window">
 			<input type="file" id="fileInput" accept=".json">
-			<div class="modal-content">
+			<div class="modal-content" style="visibility:hidden">
 				選擇分類
 			</div>
-			<select id="typeSelect">
+			<select id="typeSelect" style="display:none">
 				<option value="skills">特技</option>
 				<option value="basicActions">基本動作</option>
 				<option value="ex_powers">ex power</option>
@@ -885,13 +885,20 @@ http://opensource.org/licenses/mit-license.php
 			request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/zh/skills.json", false);
 			request.send();
 			let translationData = JSON.parse(request.responseText);
-			push_skill_dict(translationData.skills, { "type": enum_skill })
+			for (let key in translationData) {
+				let data = translationData[key];
+				push_custom_skill(data, { "type": enum_skill });
+			}
 
 			var basic_request = new XMLHttpRequest();
 			basic_request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/zh/basicActions.json", false);
 			basic_request.send();
 			translationData = JSON.parse(basic_request.responseText);
-			push_skill_dict(translationData.basicActions, { "type": enum_basic })
+			for (let key in translationData) {
+				let data = translationData[key];
+				push_custom_skill(data, { "type": enum_basic });
+			}
+			//push_skill_dict(translationData.basicActions, { "type": enum_basic })
 			//push_skill_dict(translationData.basicActions)
 			//push_skill_dict(translationData.basicActions)
 
@@ -899,7 +906,11 @@ http://opensource.org/licenses/mit-license.php
 			ex_request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/zh/ex_powers.json", false);
 			ex_request.send();
 			translationData = JSON.parse(ex_request.responseText);
-			push_skill_dict(translationData.ex_powers, { "type": enum_ex })
+			for (let key in translationData) {
+				let data = translationData[key];
+				push_custom_skill(data, { "type": enum_ex });
+			}
+			//push_skill_dict(translationData.ex_powers, { "type": enum_ex })
 
 			merge_skill_dict();
 			reload_tags();
@@ -908,7 +919,7 @@ http://opensource.org/licenses/mit-license.php
 			//console.log(index_dict);
 		};
 
-		function push_custom_skill(ad_skill, options) {
+		function push_custom_skill(ad_skill, options = {}) {
 			options["container"] = custom_skill_dict;
 			push_skill_dict(ad_skill, options)
 		}
@@ -1062,15 +1073,20 @@ http://opensource.org/licenses/mit-license.php
 			reader.readAsText(file, "UTF-8");
 			reader.onload = function () {
 				let uploaded_data = JSON.parse(reader.result);
-
+				let type_enum = enum_other;
 				if (type === "skills") {
-					push_custom_skill(uploaded_data.skills, { "type": enum_skill });
+					type_enum = enum_skill;
 				}
 				else if (type === "basicActions") {
-					push_custom_skill(uploaded_data.basicActions, { "type": enum_basic });
+					type_enum = enum_basic;
 				}
 				else if (type === "ex_powers") {
-					push_custom_skill(uploaded_data.ex_powers, { "type": enum_ex });
+					type_enum = enum_ex;
+				}
+
+				for (let key in uploaded_data) {
+					let data = uploaded_data[key];
+					push_custom_skill(data/*, { "type": type_enum }*/);
 				}
 
 				close_upload_modal();
