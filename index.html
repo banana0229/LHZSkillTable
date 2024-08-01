@@ -325,7 +325,7 @@ http://opensource.org/licenses/mit-license.php
 				<td class="left">
 					<label><input id="fct" type="checkbox" onchange="reloadData();" checked="" /> 顯示效果</label>&nbsp;
 					<label><input id="exp" type="checkbox" onchange="reloadData();" /> 顯示說明</label>&nbsp;
-					<label class="hidden"><input id="jp_fct" type="checkbox" onchange="reloadData();" />
+					<label><input id="jp_fct" type="checkbox" onchange="reloadData();" />
 						顯示原文效果</label>&nbsp;&nbsp;&nbsp;
 					<input type="button" name="c_all" value="全選" onMouseUp="check_all()">&nbsp;
 					<input type="button" name="r_all" value="清空" onMouseUp="reset_all()">&nbsp;<br />
@@ -334,9 +334,12 @@ http://opensource.org/licenses/mit-license.php
 					<label><input id="show_custom_skill" type="checkbox" onchange="reloadData();" checked="" />
 						顯示自訂特技</label>&nbsp;&nbsp;&nbsp;<br />
 					查詢範圍：
-					<label><input id="bk1" type="checkbox" onchange="reloadData();" checked="" /> 基本(book1)</label>&nbsp;
-					<label><input id="bk2" type="checkbox" onchange="reloadData();" checked="" /> 拡張(book2)</label>&nbsp;
-					<label><input id="etc" type="checkbox" onchange="reloadData();" checked="" /> ウェンズディ・ガゼット(Gz)</label>&nbsp;
+					<label><input id="bk1" type="checkbox" onchange="reloadData();" checked="" />
+						基本(book1)</label>&nbsp;
+					<label><input id="bk2" type="checkbox" onchange="reloadData();" checked="" />
+						拡張(book2)</label>&nbsp;
+					<label><input id="etc" type="checkbox" onchange="reloadData();" checked="" />
+						ウェンズディ・ガゼット(Gz)</label>&nbsp;
 					<br />
 				</td>
 			</tr>
@@ -382,6 +385,8 @@ http://opensource.org/licenses/mit-license.php
 		var custom_skill_dict = {};
 
 		var all_skill_dicts = [skill_dict, custom_skill_dict]
+
+		var jp_dict = {};
 		//#endregion
 
 
@@ -539,10 +544,11 @@ http://opensource.org/licenses/mit-license.php
 
 			for (let dict_index = 0; dict_index < all_skill_dicts.length; dict_index++) {
 				let dict = all_skill_dicts[dict_index];
+				let isCustomData = dict == custom_skill_dict;
 				if (!show_skill.checked && dict == skill_dict) {
 					continue;
 				}
-				if (!show_custom_skill.checked && dict == custom_skill_dict) {
+				if (!show_custom_skill.checked && isCustomData) {
 					continue;
 				}
 
@@ -875,7 +881,7 @@ http://opensource.org/licenses/mit-license.php
 
 						if (jp_fct.checked) {
 							var jp_efectCol = document.createElement('td');
-							jp_efectCol.innerHTML = get_jp_effect(skills[i]["id"], enum_skill);
+							jp_efectCol.innerHTML = !isCustomData ? get_jp_effect(skills[i]["id"], dict_key) : '－';
 							row.appendChild(jp_efectCol);
 						}
 
@@ -959,7 +965,56 @@ http://opensource.org/licenses/mit-license.php
 			reload_tags();
 			//remove_duplicate_id();
 
-			//console.log(index_dict);
+			var jp_skill_request = new XMLHttpRequest();
+			jp_skill_request.onreadystatechange = function () {
+				if (jp_skill_request.readyState == 4 && jp_skill_request.status == 200) {
+					let jp_data = JSON.parse(jp_skill_request.responseText);
+
+					jp_dict[enum_skill] = {}
+					for (let i = 0; i < jp_data.skills.length; i++) {
+						let data = jp_data.skills[i];
+						if (data) {
+							jp_dict[enum_skill][data["id"]] = data;
+						}
+					}
+				}
+			};
+			jp_skill_request.open("GET", "https://lhrpg.com/lhz/api/skills.json");
+			jp_skill_request.send();
+
+			var jp_basic_request = new XMLHttpRequest();
+			jp_basic_request.onreadystatechange = function () {
+				if (jp_basic_request.readyState == 4 && jp_basic_request.status == 200) {
+					let jp_data = JSON.parse(jp_basic_request.responseText);
+
+					jp_dict[enum_basic] = {}
+					for (let i = 0; i < jp_data.basicActions.length; i++) {
+						let data = jp_data.basicActions[i];
+						if (data) {
+							jp_dict[enum_basic][data["id"]] = data;
+						}
+					}
+				}
+			};
+			jp_basic_request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/jp/basicActions.json");
+			jp_basic_request.send();
+
+			var jp_ex_request = new XMLHttpRequest();
+			jp_ex_request.onreadystatechange = function () {
+				if (jp_ex_request.readyState == 4 && jp_ex_request.status == 200) {
+					let jp_data = JSON.parse(jp_ex_request.responseText);
+
+					jp_dict[enum_ex] = {}
+					for (let i = 0; i < jp_data.ex_powers.length; i++) {
+						let data = jp_data.ex_powers[i];
+						if (data) {
+							jp_dict[enum_ex][data["id"]] = data;
+						}
+					}
+				}
+			};
+			jp_ex_request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/jp/ex_powers.json");
+			jp_ex_request.send();
 		};
 
 		function push_custom_skill(ad_skill, options = {}) {
@@ -1106,8 +1161,10 @@ http://opensource.org/licenses/mit-license.php
 		}
 
 		function get_jp_effect(id, type_enum) {
-			//要知道傳來type是什麼，才知道id所代表的資料
-			return "－";//"id:" + id+"("+type_enum+")"
+			if (jp_dict[type_enum] && jp_dict[type_enum][id]) {
+				return jp_dict[type_enum][id].function;
+			}
+			return "－";
 		}
 
 		function open_upload_modal() {
