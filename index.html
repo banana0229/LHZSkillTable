@@ -197,6 +197,8 @@ http://opensource.org/licenses/mit-license.php
 		目前還在開發中，翻譯資料將會陸續補上。<br />
 	</p>
 
+	<input type="button" name="open_upload" value="上傳自訂特技" onMouseUp="open_upload_modal()">&nbsp;
+	<input type="button" name="clear_upload" value="清除自訂特技" onMouseUp="clear_uploaded_data()">&nbsp;<br />
 
 	<div id="modal" class="modal">
 		<div class="modal-window">
@@ -326,16 +328,15 @@ http://opensource.org/licenses/mit-license.php
 					<label class="hidden"><input id="jp_fct" type="checkbox" onchange="reloadData();" />
 						顯示原文效果</label>&nbsp;&nbsp;&nbsp;
 					<input type="button" name="c_all" value="全選" onMouseUp="check_all()">&nbsp;
-					<input type="button" name="r_all" value="清空" onMouseUp="reset_all()">&nbsp;
-					<input type="button" name="open_upload" value="上傳自訂特技" onMouseUp="open_upload_modal()">&nbsp;
-					<input type="button" name="clear_upload" value="清除自訂特技"
-						onMouseUp="clear_uploaded_data()">&nbsp;<br />
-
+					<input type="button" name="r_all" value="清空" onMouseUp="reset_all()">&nbsp;<br />
+					<label><input id="show_skill" type="checkbox" onchange="reloadData();" checked="" />
+						顯示官方特技</label>&nbsp;
+					<label><input id="show_custom_skill" type="checkbox" onchange="reloadData();" checked="" />
+						顯示自訂特技</label>&nbsp;&nbsp;&nbsp;<br />
 					查詢範圍：
-					<input id="bk1" type="checkbox" onchange="reloadData();" checked="" /> 基本(book1)</label>&nbsp;
-					<input id="bk2" type="checkbox" onchange="reloadData();" checked="" /> 拡張(book2)</label>&nbsp;
-					<input id="etc" type="checkbox" onchange="reloadData();" checked="" />
-					ウェンズディ・ガゼット(Gz)</label>&nbsp;
+					<label><input id="bk1" type="checkbox" onchange="reloadData();" checked="" /> 基本(book1)</label>&nbsp;
+					<label><input id="bk2" type="checkbox" onchange="reloadData();" checked="" /> 拡張(book2)</label>&nbsp;
+					<label><input id="etc" type="checkbox" onchange="reloadData();" checked="" /> ウェンズディ・ガゼット(Gz)</label>&nbsp;
 					<br />
 				</td>
 			</tr>
@@ -485,7 +486,10 @@ http://opensource.org/licenses/mit-license.php
 			var bk2 = document.getElementById('bk2');
 			var etc = document.getElementById('etc');
 
-			var jp_fct_th = document.getElementById('jp_fct_th')
+			var jp_fct_th = document.getElementById('jp_fct_th');
+
+			var show_skill = document.getElementById('show_skill');
+			var show_custom_skill = document.getElementById('show_custom_skill');
 
 			var f1 = 0;//特技種別のチェックあるなし
 			var f2 = 0;//タイミングのチェックあるなし
@@ -535,6 +539,13 @@ http://opensource.org/licenses/mit-license.php
 
 			for (let dict_index = 0; dict_index < all_skill_dicts.length; dict_index++) {
 				let dict = all_skill_dicts[dict_index];
+				if (!show_skill.checked && dict == skill_dict) {
+					continue;
+				}
+				if (!show_custom_skill.checked && dict == custom_skill_dict) {
+					continue;
+				}
+
 				for (let dict_key in dict) {
 					let skills = dict[dict_key];
 					for (var i = 0; i < skills.length; i++) {
@@ -1081,10 +1092,16 @@ http://opensource.org/licenses/mit-license.php
 			document.getElementById('efe').value = "";
 			document.getElementById('sna').value = "";
 			document.getElementById('tna').selectedIndex = 0;
+			document.forms[0].elements[60].checked = true;
+			document.forms[0].elements[61].checked = false;
 			document.forms[0].elements[62].checked = false;
-			document.forms[0].elements[64].checked = true;
+
 			document.forms[0].elements[65].checked = true;
 			document.forms[0].elements[66].checked = true;
+
+			document.forms[0].elements[67].checked = true;
+			document.forms[0].elements[68].checked = true;
+			document.forms[0].elements[69].checked = true;
 			reloadData();
 		}
 
