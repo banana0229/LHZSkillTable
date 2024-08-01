@@ -379,6 +379,8 @@ http://opensource.org/licenses/mit-license.php
 		var index_dict;
 
 		var custom_skill_dict = {};
+
+		var all_skill_dicts = [skill_dict, custom_skill_dict]
 		//#endregion
 
 
@@ -530,361 +532,368 @@ http://opensource.org/licenses/mit-license.php
 			var tbody = document.getElementById("tablebody");
 			tbody.innerHTML = "";
 			var dispCount = 0;
-			for (var i = 0; i < skills.length; i++) {
-				if (!bk1.checked && !bk2.checked && !etc.checked) {
-					break;
-				} else {
-					if (!bk1.checked && skills[i].post == "Book1") {
-						continue;
-					}
-					if (!bk2.checked && skills[i].post == "Book2") {
-						continue;
-					}
-					if (!etc.checked && skills[i].post == "その他") {
-						continue;
-					}
-					if ((!bk1.checked || !bk2.checked || !etc.checked) && skills[i].post === null) {
-						continue;
-					}
-				}
-				var post1 = skills[i].post;
-				post1 = post1 === null ? null : post1.replace("その他", "Gz");
-				var type2 = skills[i].type;
-				var f4 = 0;//効果ノチェック
-				if (document.forms[0].elements[26].checked == false &&
-					document.forms[0].elements[27].checked == false &&
-					(document.forms[0].elements[28].checked ||
-						document.forms[0].elements[29].checked)
-				) {
-					f4 = 1;
-				}
-				//if(!ads.checked && skills[i].function.match(/Ｂ２/)) {
-				//continue;
-				//}
-				if (!bat.checked && type2 == "戰鬥") {
-					continue;
-				}
-				if (!nor.checked && type2 == "一般") {
-					continue;
-				}
-				if (!basic.checked && type2 == "基本動作") {
-					continue;
-				}
-				if (!ex.checked && type2 == "ex power") {
-					continue;
-				}
-				if (f1 == 0 && f2 == 0 && f3 == 0 && f4 == 0 && tna == "" && f6 == 0 && f7 == 0) {
-					continue;
-				}
 
-				var type1 = skills[i].job_type;
-				type1 = type1.replace("共通特技", "共通");
-				type1 = type1.replace("種族特技:", "");
-				type1 = type1.replace("基礎職業特技:", "");
-				type1 = type1.replace("主職業特技:", "");
-
-				if (f1 == 1) {
-					if (!com.checked && type1 == "共通") {
-						continue;
-					}
-
-					if (!hum.checked && type1 == "人族") {
-						continue;
-					}
-					if (!elf.checked && type1 == "精靈族") {
-						continue;
-					}
-					if (!dwf.checked && type1 == "矮人族") {
-						continue;
-					}
-					if (!alv.checked && type1 == "半祖族") {
-						continue;
-					}
-					if (!cat.checked && type1 == "貓人族") {
-						continue;
-					}
-					if (!wlf.checked && type1 == "狼牙族") {
-						continue;
-					}
-					if (!fox.checked && type1 == "狐尾族") {
-						continue;
-					}
-					if (!ret.checked && type1 == "法儀族") {
-						continue;
-					}
-
-					if (!wor.checked && type1 == "戰士職") {
-						continue;
-					}
-					if (!hel.checked && type1 == "回復職") {
-						continue;
-					}
-					if (!wep.checked && type1 == "武器攻擊職") {
-						continue;
-					}
-					if (!mag.checked && type1 == "魔法攻擊職") {
-						continue;
-					}
-
-					if (!gud.checked && type1 == "守護戰士") {
-						continue;
-					}
-					if (!sam.checked && type1 == "武士") {
-						continue;
-					}
-					if (!mnk.checked && type1 == "武鬥家") {
-						continue;
-					}
-					if (!clr.checked && type1 == "牧師") {
-						continue;
-					}
-					if (!drd.checked && type1 == "德魯伊") {
-						continue;
-					}
-					if (!kng.checked && type1 == "神官") {
-						continue;
-					}
-					if (!ass.checked && type1 == "刺客") {
-						continue;
-					}
-					if (!swb.checked && type1 == "盜劍士") {
-						continue;
-					}
-					if (!brd.checked && type1 == "吟遊詩人") {
-						continue;
-					}
-					if (!scr.checked && type1 == "妖術師") {
-						continue;
-					}
-					if (!smn.checked && type1 == "召喚術師") {
-						continue;
-					}
-					if (!enc.checked && type1 == "賦予術師") {
-						continue;
-					}
-				}
-
-				if (f2 == 1) {
-					if (!stu.checked && skills[i].timing == "設置階段") {
-						continue;
-					}
-					if (!mov.checked && skills[i].timing == "移動動作") {
-						continue;
-					}
-					if (!min.checked && skills[i].timing == "次要動作") {
-						continue;
-					}
-					if (!meg.checked && skills[i].timing == "主要動作") {
-						continue;
-					}
-					if (!ins.checked && skills[i].timing == "即時動作") {
-						continue;
-					}
-					if (!beh.checked && skills[i].timing == "行動") {
-						continue;
-					}
-					if (!tex.checked && skills[i].timing == "見下文") {
-						continue;
-					}
-					if (!jub.checked && skills[i].timing == "判定前") {
-						continue;
-					}
-					if (!jua.checked && skills[i].timing == "判定後") {
-						continue;
-					}
-					if (!dar.checked && skills[i].timing == "傷害骰") {
-						continue;
-					}
-					if (!dab.checked && skills[i].timing == "承受傷害前") {
-						continue;
-					}
-					if (!daa.checked && skills[i].timing == "承受傷害後") {
-						continue;
-					}
-					if (!nti.checked && skills[i].timing == "先攻階段") {
-						continue;
-					}
-					if (!cle.checked && skills[i].timing == "清除階段") {
-						continue;
-					}
-					if (!brf.checked && skills[i].timing == "簡令階段") {
-						continue;
-					}
-					if (!rst.checked && skills[i].timing == "休息階段") {
-						continue;
-					}
-					if (!ppl.checked && skills[i].timing == "跑團前") {
-						continue;
-					}
-					if (!psi.checked && skills[i].timing == "常駐") {
-						continue;
-					}
-				}
-				if (f3 == 1) {
-					for (var j = 0; j < efect.length; j++) {
-						var re = new RegExp(efect[j], "i");
-						if (!efect[j] == "" && skills[i].function.match(re)) {
+			for (let dict_index = 0; dict_index < all_skill_dicts.length; dict_index++) {
+				let dict = all_skill_dicts[dict_index];
+				for (let dict_key in dict) {
+					let skills = dict[dict_key];
+					for (var i = 0; i < skills.length; i++) {
+						if (!bk1.checked && !bk2.checked && !etc.checked) {
+							break;
+						} else {
+							if (!bk1.checked && skills[i].post == "Book1") {
+								continue;
+							}
+							if (!bk2.checked && skills[i].post == "Book2") {
+								continue;
+							}
+							if (!etc.checked && skills[i].post == "その他") {
+								continue;
+							}
+							if ((!bk1.checked || !bk2.checked || !etc.checked) && skills[i].post === null) {
+								continue;
+							}
+						}
+						var post1 = skills[i].post;
+						post1 = post1 === null ? null : post1.replace("その他", "Gz");
+						var type2 = skills[i].type;
+						var f4 = 0;//効果ノチェック
+						if (document.forms[0].elements[26].checked == false &&
+							document.forms[0].elements[27].checked == false &&
+							(document.forms[0].elements[28].checked ||
+								document.forms[0].elements[29].checked)
+						) {
 							f4 = 1;
-							break;
 						}
-					}
-					if (f4 == 0) {
-						continue;
-					}
-				}
-				if (!tna == "") {
-					var f5 = 0;//タグの有無
-					var re = new RegExp(tna, "i");
-					for (var j = 0; j < skills[i].tags.length; j++) {
-						if (skills[i].tags[j] == tna) {
-							f5 = 1;
-							break;
+						//if(!ads.checked && skills[i].function.match(/Ｂ２/)) {
+						//continue;
+						//}
+						if (!bat.checked && type2 == "戰鬥") {
+							continue;
 						}
-					}
-					if (f5 == 0) {
-						continue;
+						if (!nor.checked && type2 == "一般") {
+							continue;
+						}
+						if (!basic.checked && type2 == "基本動作") {
+							continue;
+						}
+						if (!ex.checked && type2 == "ex power") {
+							continue;
+						}
+						if (f1 == 0 && f2 == 0 && f3 == 0 && f4 == 0 && tna == "" && f6 == 0 && f7 == 0) {
+							continue;
+						}
+
+						var type1 = skills[i].job_type;
+						type1 = type1.replace("共通特技", "共通");
+						type1 = type1.replace("種族特技:", "");
+						type1 = type1.replace("基礎職業特技:", "");
+						type1 = type1.replace("主職業特技:", "");
+
+						if (f1 == 1) {
+							if (!com.checked && type1 == "共通") {
+								continue;
+							}
+
+							if (!hum.checked && type1 == "人族") {
+								continue;
+							}
+							if (!elf.checked && type1 == "精靈族") {
+								continue;
+							}
+							if (!dwf.checked && type1 == "矮人族") {
+								continue;
+							}
+							if (!alv.checked && type1 == "半祖族") {
+								continue;
+							}
+							if (!cat.checked && type1 == "貓人族") {
+								continue;
+							}
+							if (!wlf.checked && type1 == "狼牙族") {
+								continue;
+							}
+							if (!fox.checked && type1 == "狐尾族") {
+								continue;
+							}
+							if (!ret.checked && type1 == "法儀族") {
+								continue;
+							}
+
+							if (!wor.checked && type1 == "戰士職") {
+								continue;
+							}
+							if (!hel.checked && type1 == "回復職") {
+								continue;
+							}
+							if (!wep.checked && type1 == "武器攻擊職") {
+								continue;
+							}
+							if (!mag.checked && type1 == "魔法攻擊職") {
+								continue;
+							}
+
+							if (!gud.checked && type1 == "守護戰士") {
+								continue;
+							}
+							if (!sam.checked && type1 == "武士") {
+								continue;
+							}
+							if (!mnk.checked && type1 == "武鬥家") {
+								continue;
+							}
+							if (!clr.checked && type1 == "牧師") {
+								continue;
+							}
+							if (!drd.checked && type1 == "德魯伊") {
+								continue;
+							}
+							if (!kng.checked && type1 == "神官") {
+								continue;
+							}
+							if (!ass.checked && type1 == "刺客") {
+								continue;
+							}
+							if (!swb.checked && type1 == "盜劍士") {
+								continue;
+							}
+							if (!brd.checked && type1 == "吟遊詩人") {
+								continue;
+							}
+							if (!scr.checked && type1 == "妖術師") {
+								continue;
+							}
+							if (!smn.checked && type1 == "召喚術師") {
+								continue;
+							}
+							if (!enc.checked && type1 == "賦予術師") {
+								continue;
+							}
+						}
+
+						if (f2 == 1) {
+							if (!stu.checked && skills[i].timing == "設置階段") {
+								continue;
+							}
+							if (!mov.checked && skills[i].timing == "移動動作") {
+								continue;
+							}
+							if (!min.checked && skills[i].timing == "次要動作") {
+								continue;
+							}
+							if (!meg.checked && skills[i].timing == "主要動作") {
+								continue;
+							}
+							if (!ins.checked && skills[i].timing == "即時動作") {
+								continue;
+							}
+							if (!beh.checked && skills[i].timing == "行動") {
+								continue;
+							}
+							if (!tex.checked && skills[i].timing == "見下文") {
+								continue;
+							}
+							if (!jub.checked && skills[i].timing == "判定前") {
+								continue;
+							}
+							if (!jua.checked && skills[i].timing == "判定後") {
+								continue;
+							}
+							if (!dar.checked && skills[i].timing == "傷害骰") {
+								continue;
+							}
+							if (!dab.checked && skills[i].timing == "承受傷害前") {
+								continue;
+							}
+							if (!daa.checked && skills[i].timing == "承受傷害後") {
+								continue;
+							}
+							if (!nti.checked && skills[i].timing == "先攻階段") {
+								continue;
+							}
+							if (!cle.checked && skills[i].timing == "清除階段") {
+								continue;
+							}
+							if (!brf.checked && skills[i].timing == "簡令階段") {
+								continue;
+							}
+							if (!rst.checked && skills[i].timing == "休息階段") {
+								continue;
+							}
+							if (!ppl.checked && skills[i].timing == "跑團前") {
+								continue;
+							}
+							if (!psi.checked && skills[i].timing == "常駐") {
+								continue;
+							}
+						}
+						if (f3 == 1) {
+							for (var j = 0; j < efect.length; j++) {
+								var re = new RegExp(efect[j], "i");
+								if (!efect[j] == "" && skills[i].function.match(re)) {
+									f4 = 1;
+									break;
+								}
+							}
+							if (f4 == 0) {
+								continue;
+							}
+						}
+						if (!tna == "") {
+							var f5 = 0;//タグの有無
+							var re = new RegExp(tna, "i");
+							for (var j = 0; j < skills[i].tags.length; j++) {
+								if (skills[i].tags[j] == tna) {
+									f5 = 1;
+									break;
+								}
+							}
+							if (f5 == 0) {
+								continue;
+							}
+						}
+
+						if (f6 == 1) {
+							var re = new RegExp(s_name, "i");
+							if (!skills[i].name.match(re)) {
+								continue;
+							}
+						}
+						if (f7 == 1) {
+							if (!cls.checked && skills[i].range == "至近") {
+								continue;
+							}
+							if (!one.checked && skills[i].range == "1Sq") {
+								continue;
+							}
+							if (!two.checked && skills[i].range == "2Sq") {
+								continue;
+							}
+							if (!fur.checked && skills[i].range == "4Sq") {
+								continue;
+							}
+							if (!fiv.checked && skills[i].range == "5Sq") {
+								continue;
+							}
+							if (!six.checked && skills[i].range == "6Sq") {
+								continue;
+							}
+							if (!twe.checked && skills[i].range == "20Sq") {
+								continue;
+							}
+							if (!wpn.checked && skills[i].range == "武器") {
+								continue;
+							}
+							if (!hon.checked && skills[i].range == "見下文") {
+								continue;
+							}
+							if (!srd.checked && skills[i].range.match(/SR/)) {
+								continue;
+							}
+						}
+
+						var row = document.createElement('tr');
+						if (dispCount % 2 == 0) {
+							row.setAttribute("class", "odd");
+						}
+
+						var name = skills[i].name;
+						var regex = /(.*)\((.*)\)/;
+						var matches = name.match(regex);
+						var zhName = matches ? matches[1] : name;
+						var jpName = matches ? matches[2] : name;
+
+						var nameCol = document.createElement('td');
+						nameCol.innerHTML = zhName;
+						nameCol.setAttribute("class", "left");
+						row.appendChild(nameCol);
+
+						var name2Col = document.createElement('td');
+						name2Col.innerHTML = jpName;
+						name2Col.setAttribute("class", "left");
+						row.appendChild(name2Col);
+
+						var tagCol = document.createElement('td');
+						tagCol.innerHTML = skills[i].tags;
+						tagCol.setAttribute("class", "left");
+						row.appendChild(tagCol);
+
+						var type1Col = document.createElement('td');
+						type1Col.innerHTML = type1;
+						row.appendChild(type1Col);
+
+						var type2Col = document.createElement('td');
+						type2Col.innerHTML = skills[i].type;
+						row.appendChild(type2Col);
+
+						var srCol = document.createElement('td');
+						srCol.innerHTML = skills[i].skill_max_rank;
+						row.appendChild(srCol);
+
+						var timingCol = document.createElement('td');
+						timingCol.innerHTML = skills[i].timing;
+						row.appendChild(timingCol);
+
+						var judgeCol = document.createElement('td');
+						judgeCol.innerHTML = skills[i].roll;
+						row.appendChild(judgeCol);
+
+						var targetCol = document.createElement('td');
+						targetCol.innerHTML = skills[i].target;
+						row.appendChild(targetCol);
+
+						var rangeCol = document.createElement('td');
+						rangeCol.innerHTML = skills[i].range;
+						row.appendChild(rangeCol);
+
+						var costCol = document.createElement('td');
+						costCol.innerHTML = skills[i].cost;
+						row.appendChild(costCol);
+
+						var limitCol = document.createElement('td');
+						limitCol.innerHTML = skills[i].limit;
+						row.appendChild(limitCol);
+
+						var efectCol = document.createElement('td');
+						if (fct.checked) {
+							efectCol.innerHTML = skills[i].function + (post1 === null ? "" : "(" + post1 + ")");
+						} else {
+							efectCol.innerHTML = "";
+						}
+						row.appendChild(efectCol);
+
+						if (jp_fct.checked) {
+							var jp_efectCol = document.createElement('td');
+							jp_efectCol.innerHTML = get_jp_effect(skills[i]["id"], enum_skill);
+							row.appendChild(jp_efectCol);
+						}
+
+						tbody.appendChild(row);
+
+						if (exp.checked) {
+							var row2 = document.createElement('tr');
+							if (dispCount % 2 == 0) {
+								row2.setAttribute("class", "odd");
+							}
+							var functionCol = document.createElement('td');
+							functionCol.setAttribute("colspan", col_count);
+							functionCol.setAttribute("class", "left");
+							var funtionText = "";
+							var explainText = "";
+							//if(fct.checked) {
+							//funtionText = "<p>効果：" + skills[i].function + "</p>";
+							//}
+							if (exp.checked) {
+								explainText = "<p>解説：" + skills[i].explain + "</p>";
+							}
+							functionCol.innerHTML = funtionText + explainText;
+							row2.appendChild(functionCol);
+							tbody.appendChild(row2);
+						}
+
+						dispCount++;
 					}
 				}
-
-				if (f6 == 1) {
-					var re = new RegExp(s_name, "i");
-					if (!skills[i].name.match(re)) {
-						continue;
-					}
-				}
-				if (f7 == 1) {
-					if (!cls.checked && skills[i].range == "至近") {
-						continue;
-					}
-					if (!one.checked && skills[i].range == "1Sq") {
-						continue;
-					}
-					if (!two.checked && skills[i].range == "2Sq") {
-						continue;
-					}
-					if (!fur.checked && skills[i].range == "4Sq") {
-						continue;
-					}
-					if (!fiv.checked && skills[i].range == "5Sq") {
-						continue;
-					}
-					if (!six.checked && skills[i].range == "6Sq") {
-						continue;
-					}
-					if (!twe.checked && skills[i].range == "20Sq") {
-						continue;
-					}
-					if (!wpn.checked && skills[i].range == "武器") {
-						continue;
-					}
-					if (!hon.checked && skills[i].range == "見下文") {
-						continue;
-					}
-					if (!srd.checked && skills[i].range.match(/SR/)) {
-						continue;
-					}
-				}
-
-				var row = document.createElement('tr');
-				if (dispCount % 2 == 0) {
-					row.setAttribute("class", "odd");
-				}
-
-				var name = skills[i].name;
-				var regex = /(.*)\((.*)\)/;
-				var matches = name.match(regex);
-				var zhName = matches ? matches[1] : name;
-				var jpName = matches ? matches[2] : name;
-
-				var nameCol = document.createElement('td');
-				nameCol.innerHTML = zhName;
-				nameCol.setAttribute("class", "left");
-				row.appendChild(nameCol);
-
-				var name2Col = document.createElement('td');
-				name2Col.innerHTML = jpName;
-				name2Col.setAttribute("class", "left");
-				row.appendChild(name2Col);
-
-				var tagCol = document.createElement('td');
-				tagCol.innerHTML = skills[i].tags;
-				tagCol.setAttribute("class", "left");
-				row.appendChild(tagCol);
-
-				var type1Col = document.createElement('td');
-				type1Col.innerHTML = type1;
-				row.appendChild(type1Col);
-
-				var type2Col = document.createElement('td');
-				type2Col.innerHTML = skills[i].type;
-				row.appendChild(type2Col);
-
-				var srCol = document.createElement('td');
-				srCol.innerHTML = skills[i].skill_max_rank;
-				row.appendChild(srCol);
-
-				var timingCol = document.createElement('td');
-				timingCol.innerHTML = skills[i].timing;
-				row.appendChild(timingCol);
-
-				var judgeCol = document.createElement('td');
-				judgeCol.innerHTML = skills[i].roll;
-				row.appendChild(judgeCol);
-
-				var targetCol = document.createElement('td');
-				targetCol.innerHTML = skills[i].target;
-				row.appendChild(targetCol);
-
-				var rangeCol = document.createElement('td');
-				rangeCol.innerHTML = skills[i].range;
-				row.appendChild(rangeCol);
-
-				var costCol = document.createElement('td');
-				costCol.innerHTML = skills[i].cost;
-				row.appendChild(costCol);
-
-				var limitCol = document.createElement('td');
-				limitCol.innerHTML = skills[i].limit;
-				row.appendChild(limitCol);
-
-				var efectCol = document.createElement('td');
-				if (fct.checked) {
-					efectCol.innerHTML = skills[i].function + (post1 === null ? "" : "(" + post1 + ")");
-				} else {
-					efectCol.innerHTML = "";
-				}
-				row.appendChild(efectCol);
-
-				if (jp_fct.checked) {
-					var jp_efectCol = document.createElement('td');
-					jp_efectCol.innerHTML = get_jp_effect(skills[i]["id"], enum_skill);
-					row.appendChild(jp_efectCol);
-				}
-
-				tbody.appendChild(row);
-
-				if (exp.checked) {
-					var row2 = document.createElement('tr');
-					if (dispCount % 2 == 0) {
-						row2.setAttribute("class", "odd");
-					}
-					var functionCol = document.createElement('td');
-					functionCol.setAttribute("colspan", col_count);
-					functionCol.setAttribute("class", "left");
-					var funtionText = "";
-					var explainText = "";
-					//if(fct.checked) {
-					//funtionText = "<p>効果：" + skills[i].function + "</p>";
-					//}
-					if (exp.checked) {
-						explainText = "<p>解説：" + skills[i].explain + "</p>";
-					}
-					functionCol.innerHTML = funtionText + explainText;
-					row2.appendChild(functionCol);
-					tbody.appendChild(row2);
-				}
-
-				dispCount++;
 			}
 		}
 		//重複チェック
@@ -935,7 +944,7 @@ http://opensource.org/licenses/mit-license.php
 			}
 			//push_skill_dict(translationData.ex_powers, { "type": enum_ex })
 
-			merge_skill_dict();
+			//merge_skill_dict();
 			reload_tags();
 			//remove_duplicate_id();
 
@@ -1040,11 +1049,17 @@ http://opensource.org/licenses/mit-license.php
 		}
 
 		function tag_list() {
-			for (var i = 0; i < skills.length; i++) {
-				for (var j = 0; j < skills[i].tags.length; j++) {
-					var tag = skills[i].tags[j]
-					if (!checkDuplicate(tagl, tag)) {
-						tagl.push(tag);
+			for (let i = 0; i < all_skill_dicts.length; i++) {
+				let dict = all_skill_dicts[i];
+				for (let dict_key in dict) {
+					let skills = dict[dict_key];
+					for (var j = 0; j < skills.length; j++) {
+						for (var k = 0; k < skills[j].tags.length; k++) {
+							var tag = skills[j].tags[k]
+							if (!checkDuplicate(tagl, tag)) {
+								tagl.push(tag);
+							}
+						}
 					}
 				}
 			}
@@ -1091,9 +1106,14 @@ http://opensource.org/licenses/mit-license.php
 			document.getElementById('typeSelect').value = "skills";
 		}
 		function clear_uploaded_data() {
-			custom_skill_dict = {};
+			for (var prop in custom_skill_dict) {
+				if (custom_skill_dict.hasOwnProperty(prop)) {
+					delete custom_skill_dict[prop];
+				}
+			}
+			//custom_skill_dict = {};
 			tagl = [""];
-			merge_skill_dict();
+			//merge_skill_dict();
 			reload_tags();
 			reloadData();
 		}
@@ -1125,7 +1145,7 @@ http://opensource.org/licenses/mit-license.php
 				}
 
 				close_upload_modal();
-				merge_skill_dict();
+				//merge_skill_dict();
 				reload_tags();
 				reloadData();
 			}
