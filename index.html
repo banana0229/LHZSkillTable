@@ -930,16 +930,7 @@ http://opensource.org/licenses/mit-license.php
 			//script.src = "https://lhrpg.com/lhz/api/skills.json?callback=jsonp";
 			//document.body.appendChild(script);
 
-			var request = new XMLHttpRequest();
-			request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/zh/skills.json", false);
-			request.send();
-			let translationData = JSON.parse(request.responseText);
-			for (let key in translationData) {
-				let data = translationData[key];
-				push_skill_dict(data, { "type": enum_skill });
-			}
-			reload_tags();
-
+			load_skill("https://banana0229.github.io/LHZSheetViewer/data/zh/skills.json", enum_skill);
 			load_skill("https://banana0229.github.io/LHZSheetViewer/data/zh/basicActions.json", enum_basic);
 			load_skill("https://banana0229.github.io/LHZSheetViewer/data/zh/ex_powers.json", enum_ex);
 
