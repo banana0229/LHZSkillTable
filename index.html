@@ -987,6 +987,9 @@ http://opensource.org/licenses/mit-license.php
 			};
 			jp_ex_request.open("GET", "https://banana0229.github.io/LHZSheetViewer/data/jp/ex_powers.json");
 			jp_ex_request.send();
+
+			let savedData = loadFromLocalStorage("custom_skill_dict");
+			console.log(savedData);
 		};
 
 		function load_skill(url, enum_type = enum_other) {
@@ -1008,6 +1011,7 @@ http://opensource.org/licenses/mit-license.php
 		function push_custom_skill(ad_skill, options = {}) {
 			options["container"] = custom_skill_dict;
 			push_skill_dict(ad_skill, options)
+			//saveToLocalStorage("custom_skill_dict", custom_skill_dict);
 		}
 
 		function push_skill_dict(ad_skill, options = {}) {
@@ -1178,6 +1182,7 @@ http://opensource.org/licenses/mit-license.php
 			tagl = [""];
 			//merge_skill_dict();
 			reload_tags();
+			clearLocalStorage();
 			reloadData();
 		}
 
@@ -1263,6 +1268,29 @@ http://opensource.org/licenses/mit-license.php
 			link.href = URL.createObjectURL(blob); // aタグのhref属性を作成
 			link.download = file_name; // aタグのdownload属性を作成
 			link.click(); // 定義したaタグをクリック（実行）
+		}
+
+		function saveToLocalStorage(key, value) {
+			localStorage.setItem(key, JSON.stringify(value));
+			console.log(`Saved ${key}:`, value);
+		}
+		
+		// 從 localStorage 載入數據
+		function loadFromLocalStorage(key) {
+			const value = localStorage.getItem(key);
+			if (value) {
+				console.log(`Loaded ${key}:`, JSON.parse(value));
+				return JSON.parse(value);
+			} else {
+				console.log(`${key} does not exist.`);
+				return null;
+			}
+		}
+
+		// 清除所有 localStorage 的數據
+		function clearLocalStorage() {
+			localStorage.clear();
+			console.log(`All localStorage data removed`);
 		}
 
 		//選擇檔案
