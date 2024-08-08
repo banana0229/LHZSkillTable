@@ -194,7 +194,6 @@ http://opensource.org/licenses/mit-license.php
 	<h3>LHTRPG 特技查詢</h3>
 	<p>
 		該工具為以<a href="https://unonek.sakura.ne.jp/lh/skl.html">[LHTRPG 特技検索]</a>為基礎，進行修改的中文版本。<br />
-		目前還在開發中，翻譯資料將會陸續補上。<br />
 	</p>
 
 	<input type="button" name="open_upload" value="上傳自訂特技" onMouseUp="open_upload_modal()">&nbsp;
@@ -901,7 +900,7 @@ http://opensource.org/licenses/mit-license.php
 							//funtionText = "<p>効果：" + skills[i].function + "</p>";
 							//}
 							if (exp.checked) {
-								explainText = "<p>解說：" + skills[i].explain + "</p>";
+								explainText = "<p>說明：" + skills[i].explain + "</p>";
 							}
 							functionCol.innerHTML = funtionText + explainText;
 							row2.appendChild(functionCol);
@@ -1204,7 +1203,11 @@ http://opensource.org/licenses/mit-license.php
 
 				for (let key in uploaded_data) {
 					let data = uploaded_data[key];
-					push_custom_skill(data/*, { "type": type_enum }*/);
+					let isLegal = check_skill_data(data);
+					if(isLegal)
+					{
+						push_custom_skill(data/*, { "type": type_enum }*/);
+					}
 				}
 
 				close_upload_modal();
@@ -1212,6 +1215,24 @@ http://opensource.org/licenses/mit-license.php
 				reload_tags();
 				reloadData();
 			}
+		}
+
+		function check_skill_data(skill_list = []) {
+			let necessary_pro_list = ["job_type", "type", "name", "skill_max_rank", "timing", "roll", "target", "range", "cost", "post", "limit",
+				"tags",
+				"function", "explain", "id"];
+
+			for (var i = 0; i < skill_list.length; i++) {
+				for (var j = 0; j < necessary_pro_list.length; j++) {
+					if (!skill_list[i].hasOwnProperty(necessary_pro_list[j])) {
+						return false;
+					}
+					if (!Array.isArray(skill_list[i].tags)) {
+						return false;
+					}
+				}
+			}
+			return true;
 		}
 
 		//選擇檔案
