@@ -197,6 +197,7 @@ http://opensource.org/licenses/mit-license.php
 	</p>
 
 	<input type="button" name="open_upload" value="上傳自訂特技" onMouseUp="open_upload_modal()">&nbsp;
+	<input type="button" name="download" value="匯出自訂特技" onMouseUp="output_current_custom_skills()">&nbsp;
 	<input type="button" name="clear_upload" value="清除自訂特技" onMouseUp="clear_uploaded_data()">&nbsp;<br />
 
 	<div id="modal" class="modal">
@@ -1204,8 +1205,7 @@ http://opensource.org/licenses/mit-license.php
 				for (let key in uploaded_data) {
 					let data = uploaded_data[key];
 					let isLegal = check_skill_data(data);
-					if(isLegal)
-					{
+					if (isLegal) {
 						push_custom_skill(data/*, { "type": type_enum }*/);
 					}
 				}
@@ -1233,6 +1233,36 @@ http://opensource.org/licenses/mit-license.php
 				}
 			}
 			return true;
+		}
+
+		function output_current_custom_skills() {
+			let output_data = {};
+			output_data["skills"] = [];
+			for (key in custom_skill_dict) {
+				let skills = custom_skill_dict[key];
+				skills = push_skill(output_data["skills"], skills);
+			}
+			if (output_data["skills"].length > 0) {
+				write_json(output_data, "custom_skills.json")
+			}
+			else {
+				alert("錯誤！找不到已上傳的特技資料。");
+				return;
+			}
+		}
+
+		function write_json(data = {}, file_name = "output.json") {
+			let str = JSON.stringify(data);
+			if (str.localeCompare("{}") == 0) {
+				alert("錯誤！\n無法取得資料。");
+				return;
+			}
+			let ary = str.split(''); // 配列形式に変換（後述のBlobで全要素出力）
+			let blob = new Blob(ary, { type: "text/json" }); // テキスト形式でBlob定義
+			let link = document.createElement('a'); // HTMLのaタグを作成
+			link.href = URL.createObjectURL(blob); // aタグのhref属性を作成
+			link.download = file_name; // aタグのdownload属性を作成
+			link.click(); // 定義したaタグをクリック（実行）
 		}
 
 		//選擇檔案
