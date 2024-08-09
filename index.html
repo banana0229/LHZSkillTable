@@ -196,9 +196,9 @@ http://opensource.org/licenses/mit-license.php
 		該工具為以<a href="https://unonek.sakura.ne.jp/lh/skl.html">[LHTRPG 特技検索]</a>為基礎，進行修改的中文版本。<br />
 	</p>
 
-	<input type="button" name="open_upload" value="上傳自訂特技" onMouseUp="open_upload_modal()">&nbsp;
+	<input type="button" name="open_upload" value="匯入自訂特技" onMouseUp="open_upload_modal()">&nbsp;
 	<input type="button" name="download" value="匯出自訂特技" onMouseUp="output_current_custom_skills()">&nbsp;
-	<input type="button" name="clear_upload" value="清除自訂特技" onMouseUp="clear_uploaded_data()">&nbsp;<br />
+	<input type="button" name="clear_upload" value="清除匯入特技" onMouseUp="clear_uploaded_data()">&nbsp;<br />
 
 	<div id="modal" class="modal">
 		<div class="modal-window">
@@ -989,7 +989,11 @@ http://opensource.org/licenses/mit-license.php
 			jp_ex_request.send();
 
 			let savedData = loadFromLocalStorage("custom_skill_dict");
-			console.log(savedData);
+
+			for (var prop in savedData) {
+				custom_skill_dict[prop] = savedData[prop];
+			}
+			//console.log(savedData);
 		};
 
 		function load_skill(url, enum_type = enum_other) {
@@ -1011,7 +1015,7 @@ http://opensource.org/licenses/mit-license.php
 		function push_custom_skill(ad_skill, options = {}) {
 			options["container"] = custom_skill_dict;
 			push_skill_dict(ad_skill, options)
-			//saveToLocalStorage("custom_skill_dict", custom_skill_dict);
+			saveToLocalStorage("custom_skill_dict", custom_skill_dict);
 		}
 
 		function push_skill_dict(ad_skill, options = {}) {
@@ -1212,6 +1216,10 @@ http://opensource.org/licenses/mit-license.php
 					let isLegal = check_skill_data(data);
 					if (isLegal) {
 						push_custom_skill(data/*, { "type": type_enum }*/);
+					}
+					else {
+						alert("資料格式錯誤！");
+						break;
 					}
 				}
 
