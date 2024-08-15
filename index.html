@@ -203,95 +203,149 @@ http://opensource.org/licenses/mit-license.php
 	<div id="modal" class="modal">
 		<div class="modal-window">
 			<input type="file" id="fileInput" accept=".json">
-			<div class="hidden">
-				<label><input type="text" size="40" value="特技名"></label>
-				<div class="radio-group" id="job_type_group">
-					<label><input type="radio" name="job_type" value="" checked> 共通</label><br>
-					<label><input type="radio" name="job_type" value=""> 人族</label>
-					<label><input type="radio" name="job_type" value=""> 精靈族</label>
-					<label><input type="radio" name="job_type" value=""> 矮人族</label>
-					<label><input type="radio" name="job_type" value=""> 半祖族</label>
-					<label><input type="radio" name="job_type" value=""> 貓人族</label>
-					<label><input type="radio" name="job_type" value=""> 狼牙族</label>
-					<label><input type="radio" name="job_type" value=""> 狐尾族</label>
-					<label><input type="radio" name="job_type" value=""> 法儀族</label><br>
+			<table class="option hidden">
+				<tr>
+					<th colspan="2">手動設定</th>
+				</tr>
+				<tr>
+					<td>特技名</td>
+					<td class="left">
+						<label><input id="custom_skill_name" type="text" size="40" value=""></label>
+					</td>
+				</tr>
+				<tr>
+					<td>類別</td>
+					<td class="left" id="job_type_group">
+						<label><input type="radio" name="job_type" value="共通特技" checked> 共通</label><br>
+						<label><input type="radio" name="job_type" value="種族特技:人族"> 人族</label>
+						<label><input type="radio" name="job_type" value="種族特技:精靈族"> 精靈族</label>
+						<label><input type="radio" name="job_type" value="種族特技:矮人族"> 矮人族</label>
+						<label><input type="radio" name="job_type" value="種族特技:半祖族"> 半祖族</label>
+						<label><input type="radio" name="job_type" value="種族特技:貓人族"> 貓人族</label>
+						<label><input type="radio" name="job_type" value="種族特技:狼牙族"> 狼牙族</label>
+						<label><input type="radio" name="job_type" value="種族特技:狐尾族"> 狐尾族</label>
+						<label><input type="radio" name="job_type" value="種族特技:法儀族"> 法儀族</label><br>
 
-					<label><input type="radio" name="job_type" value=""> 戰士職</label>
-					<label><input type="radio" name="job_type" value=""> 回復職</label>
-					<label><input type="radio" name="job_type" value=""> 武器攻擊職</label>
-					<label><input type="radio" name="job_type" value=""> 魔法攻擊職</label><br>
+						<label><input type="radio" name="job_type" value="基礎職業特技:戰士職"> 戰士職</label>
+						<label><input type="radio" name="job_type" value="基礎職業特技:回復職"> 回復職</label>
+						<label><input type="radio" name="job_type" value="基礎職業特技:武器攻擊職"> 武器攻擊職</label>
+						<label><input type="radio" name="job_type" value="基礎職業特技:魔法攻擊職"> 魔法攻擊職</label><br>
 
-					<label><input type="radio" name="job_type" value=""> 守護戰士</label>
-					<label><input type="radio" name="job_type" value=""> 武士</label>
-					<label><input type="radio" name="job_type" value=""> 武鬥家</label>
-					<label><input type="radio" name="job_type" value=""> 牧師</label>
-					<label><input type="radio" name="job_type" value=""> 德魯伊</label>
-					<label><input type="radio" name="job_type" value=""> 神官</label>
-					<label><input type="radio" name="job_type" value=""> 刺客</label>
-					<label><input type="radio" name="job_type" value=""> 盜劍士</label>
-					<label><input type="radio" name="job_type" value=""> 吟遊詩人</label>
-					<label><input type="radio" name="job_type" value=""> 妖術師</label>
-					<label><input type="radio" name="job_type" value=""> 賦予術師</label><br>
-				</div>
-				<div class="radio-group" id="type_group">
-					<label><input type="radio" name="type" value="" checked> 戰鬥</label>
-					<label><input type="radio" name="type" value=""> 一般</label>
-					<label><input type="radio" name="type" value=""> 基本</label>
-					<label><input type="radio" name="type" value=""> EX</label><br>
-				</div>
-				<div class="radio-group" id="timing_group">
-					<label><input type="radio" name="timing" value="" checked> 常駐</label>
-					<label><input type="radio" name="timing" value=""> 設置階段</label>
-					<label><input type="radio" name="timing" value=""> 先攻階段</label>
-					<label><input type="radio" name="timing" value=""> 移動動作</label>
-					<label><input type="radio" name="timing" value=""> 次要動作</label>
-					<label><input type="radio" name="timing" value=""> 主要動作</label>
-					<label><input type="radio" name="timing" value=""> 行動</label>
-					<label><input type="radio" name="timing" value=""> 即時動作</label><br>
-					<label><input type="radio" name="timing" value=""> 傷害骰</label>
-					<label><input type="radio" name="timing" value=""> 承受傷害前</label>
-					<label><input type="radio" name="timing" value=""> 承受傷害後</label>
-					<label><input type="radio" name="timing" value=""> 判定前</label>
-					<label><input type="radio" name="timing" value=""> 判定後</label>
-					<label><input type="radio" name="timing" value=""> 清除階段</label>
-					<label><input type="radio" name="timing" value=""> 跑團前</label><br>
-					<label><input type="radio" name="timing" value=""> 簡令階段</label>
-					<label><input type="radio" name="timing" value=""> 見下文</label>
-					<label><input type="radio" name="timing" value=""> 休息階段</label>
-				</div>
-				<label><input type="text" size="40" value="判定"></label><br>
-				<label><input type="text" size="40" value="對象"></label><br>
-				<div class="radio-group" id="timing_group">
-					<div class="radio-group" id="range_group">
-					<label><input type="radio" name="range" value="" checked> 至近</label>
-					<label><input type="radio" name="range" value=""> 1Sq</label>
-					<label><input type="radio" name="range" value=""> 2Sq</label>
-					<label><input type="radio" name="range" value=""> 4Sq</label>
-					<label><input type="radio" name="range" value=""> 5Sq</label>
-					<label><input type="radio" name="range" value=""> 6Sq</label>
-					<label><input type="radio" name="range" value=""> 20Sq</label>
-					<label><input type="radio" name="range" value=""> 武器</label>
-					<label><input type="radio" name="range" value=""> 見下文</label>
-					<label><input type="radio" name="range" value=""> 根據SR</label><br>
-				</div>
+						<label><input type="radio" name="job_type" value="主職業特技:守護戰士"> 守護戰士</label>
+						<label><input type="radio" name="job_type" value="主職業特技:武士"> 武士</label>
+						<label><input type="radio" name="job_type" value="主職業特技:武鬥家"> 武鬥家</label>
+						<label><input type="radio" name="job_type" value="主職業特技:牧師"> 牧師</label>
+						<label><input type="radio" name="job_type" value="主職業特技:德魯伊"> 德魯伊</label>
+						<label><input type="radio" name="job_type" value="主職業特技:神官"> 神官</label>
+						<label><input type="radio" name="job_type" value="主職業特技:刺客"> 刺客</label>
+						<label><input type="radio" name="job_type" value="主職業特技:盜劍士"> 盜劍士</label>
+						<label><input type="radio" name="job_type" value="主職業特技:吟遊詩人"> 吟遊詩人</label>
+						<label><input type="radio" name="job_type" value="主職業特技:妖術師"> 妖術師</label>
+						<label><input type="radio" name="job_type" value="主職業特技:賦予術師"> 賦予術師</label><br>
+					</td>
+				</tr>
+				<tr>
+					<td>戰鬥/一般</td>
+					<td class="left" id="type_group">
+						<label><input type="radio" name="type" value="戰鬥" checked> 戰鬥</label>
+						<label><input type="radio" name="type" value="一般"> 一般</label>
+						<label><input type="radio" name="type" value="基本動作"> 基本</label>
+						<label><input type="radio" name="type" value="ex power"> EX</label><br>
+					</td>
+				</tr>
+				<tr>
+					<td>時機</td>
+					<td class="left" id="timing_group">
+						<label><input type="radio" name="timing" value="常駐" checked> 常駐</label>
+						<label><input type="radio" name="timing" value="設置階段"> 設置階段</label>
+						<label><input type="radio" name="timing" value="先攻階段"> 先攻階段</label>
+						<label><input type="radio" name="timing" value="移動動作"> 移動動作</label>
+						<label><input type="radio" name="timing" value="次要動作"> 次要動作</label>
+						<label><input type="radio" name="timing" value="主要動作"> 主要動作</label>
+						<label><input type="radio" name="timing" value="行動"> 行動</label>
+						<label><input type="radio" name="timing" value="即時動作"> 即時動作</label><br>
+						<label><input type="radio" name="timing" value="傷害骰"> 傷害骰</label>
+						<label><input type="radio" name="timing" value="承受傷害前"> 承受傷害前</label>
+						<label><input type="radio" name="timing" value="承受傷害後"> 承受傷害後</label>
+						<label><input type="radio" name="timing" value="判定前"> 判定前</label>
+						<label><input type="radio" name="timing" value="判定後"> 判定後</label>
+						<label><input type="radio" name="timing" value="清除階段"> 清除階段</label>
+						<label><input type="radio" name="timing" value="跑團前"> 跑團前</label><br>
+						<label><input type="radio" name="timing" value="簡令階段"> 簡令階段</label>
+						<label><input type="radio" name="timing" value="見下文"> 見下文</label>
+						<label><input type="radio" name="timing" value="休息階段"> 休息階段</label>
+					</td>
+				</tr>
+				<tr>
+					<td>判定</td>
+					<td class="left">
+						<label><input id="custom_roll" type="text" size="40" value=""></label><br>
+					</td>
+				</tr>
+				<tr>
+					<td>對象</td>
+					<td class="left">
+						<label><input id="custom_target" type="text" size="40" value=""></label><br>
+					</td>
+				</tr>
+				<tr>
+					<td>射程</td>
+					<td class="left" id="range_group">
+						<label><input type="radio" name="range" value="至近" checked> 至近</label>
+						<label><input type="radio" name="range" value="1Sq"> 1Sq</label>
+						<label><input type="radio" name="range" value="2Sq"> 2Sq</label>
+						<label><input type="radio" name="range" value="4Sq"> 4Sq</label>
+						<label><input type="radio" name="range" value="5Sq"> 5Sq</label>
+						<label><input type="radio" name="range" value="6Sq"> 6Sq</label>
+						<label><input type="radio" name="range" value="20Sq"> 20Sq</label>
+						<label><input type="radio" name="range" value="武器"> 武器</label>
+						<label><input type="radio" name="range" value="見下文"> 見下文</label>
+						<label><input type="radio" name="range" value="(待處理)"> 自訂:</label>
+						<label><input type="text" size="10" value=""></label><br>
+					</td>
+				</tr>
+				<tr>
+					<td>代價</td>
+					<td class="left">
+						<label><input id="custom_cost" type="text" size="40" value=""></label><br>
+					</td>
+				</tr>
+				<tr>
+					<td>限制</td>
+					<td class="left">
+						<label><input id="custom_limit" type="text" size="40" value=""></label><br>
+					</td>
+				</tr>
+				<tr>
+					<td>效果</td>
+					<td class="left">
+						<label><input id="custom_effect" type="text" size="40" value=""></label><br>
+					</td>
+				</tr>
+				<tr>
+					<td>說明</td>
+					<td class="left">
+						<label><input id="custom_explain" type="text" size="40" value=""></label><br>
+					</td>
+				</tr>
+				<tr>
+					<td>標籤</td>
+					<td class="left">
+						<label><input id="custom_tags" type="text" size="40" value=""></label><br>
+					</td>
+				</tr>
+			</table>
+			<div class="modal-content" style="visibility:hidden">
+				選擇分類
 			</div>
-			<label><input type="text" size="40" value="代價"></label><br>
-			<label><input type="text" size="40" value="限制"></label><br>
-			<label><input type="text" size="40" value="效果"></label><br>
-			<label><input type="text" size="40" value="說明"></label><br>
-			<label><input type="text" size="40" value="標籤"></label><br>
+			<select id="typeSelect" style="display:none">
+				<option value="skills">特技</option>
+				<option value="basicActions">基本動作</option>
+				<option value="ex_powers">ex power</option>
+			</select>
+			<button id="confirmBtn" disabled>確認</button>
+			<button id="cancelBtn">取消</button>
 		</div>
-		<div class="modal-content" style="visibility:hidden">
-			選擇分類
-		</div>
-		<select id="typeSelect" style="display:none">
-			<option value="skills">特技</option>
-			<option value="basicActions">基本動作</option>
-			<option value="ex_powers">ex power</option>
-		</select>
-		<button id="confirmBtn" disabled>確認</button>
-		<button id="cancelBtn">取消</button>
-	</div>
 	</div>
 
 	<form action="*" onsubmit="return false;">
@@ -1379,6 +1433,38 @@ http://opensource.org/licenses/mit-license.php
 			console.log(`All localStorage data removed`);
 		}
 
+		function getRadioValue(name) {
+			var ele = document.getElementsByName(name);
+
+			for (i = 0; i < ele.length; i++) {
+				if (ele[i].checked) {
+					return ele[i].value;
+				}
+			}
+			return null;
+		}
+
+		function getManualCustomData() {
+			let manualData = {};
+			manualData["job_type"] = getRadioValue("job_type");
+			manualData["type"] = getRadioValue("type");
+			manualData["name"] = document.getElementById('custom_skill_name').value;
+			manualData["skill_rank"] = null;
+			manualData["skill_max_rank"] = 0;//temp
+			manualData["timing"] = getRadioValue("timing");
+			manualData["target"] = document.getElementById('custom_roll').value;
+			manualData["name"] = document.getElementById('custom_target').value;
+			manualData["range"] = getRadioValue("range");
+			manualData["cost"] = document.getElementById('custom_cost').value;
+			manualData["post"] = null;//temp
+			manualData["limit"] = document.getElementById('custom_limit').value;
+			manualData["tags"] = [];//temp
+			manualData["function"] = document.getElementById('custom_effect').value;
+			manualData["explain"] = document.getElementById('custom_explain').value;
+			manualData["id"] = 0;//temp
+
+			return manualData;
+		}
 		//選擇檔案
 		document.getElementById('fileInput').addEventListener('change', function () {
 			//有上傳檔案才能確認
