@@ -300,8 +300,9 @@ http://opensource.org/licenses/mit-license.php
 						<label><input type="radio" name="range" value="20Sq"> 20Sq</label>
 						<label><input type="radio" name="range" value="武器"> 武器</label>
 						<label><input type="radio" name="range" value="見下文"> 見下文</label>
-						<label><input type="radio" name="range" value="(待處理)"> 自訂:</label>
-						<label><input type="text" size="10" value=""></label><br>
+						<label><input type="radio" id="custom_range_c" name="range" value="custom_value"> 自訂:</label>
+						<label><input type="text" id="custom_range" size="10" value=""
+								onfocus="document.getElementById('custom_range_c').checked = true;"></label><br>
 					</td>
 				</tr>
 				<tr>
@@ -1438,8 +1439,22 @@ http://opensource.org/licenses/mit-license.php
 
 			for (i = 0; i < ele.length; i++) {
 				if (ele[i].checked) {
-					return ele[i].value;
+					if (ele[i].value === "custom_value") {
+						return getCustomValue(name);
+					}
+					else {
+						return ele[i].value;
+					}
 				}
+			}
+			return null;
+		}
+
+		function getCustomValue(type) {
+			var ele = document.getElementById(`custom_${type}`);
+
+			if (ele) {
+				return ele.value;
 			}
 			return null;
 		}
@@ -1448,19 +1463,19 @@ http://opensource.org/licenses/mit-license.php
 			let manualData = {};
 			manualData["job_type"] = getRadioValue("job_type");
 			manualData["type"] = getRadioValue("type");
-			manualData["name"] = document.getElementById('custom_skill_name').value;
+			manualData["name"] = getCustomValue("skill_name");
 			manualData["skill_rank"] = null;
 			manualData["skill_max_rank"] = 0;//temp
 			manualData["timing"] = getRadioValue("timing");
-			manualData["target"] = document.getElementById('custom_roll').value;
-			manualData["name"] = document.getElementById('custom_target').value;
+			manualData["roll"] = getCustomValue("roll");
+			manualData["target"] = getCustomValue("target");
 			manualData["range"] = getRadioValue("range");
-			manualData["cost"] = document.getElementById('custom_cost').value;
+			manualData["cost"] = getCustomValue("cost");
 			manualData["post"] = null;//temp
-			manualData["limit"] = document.getElementById('custom_limit').value;
+			manualData["limit"] = getCustomValue("limit");
 			manualData["tags"] = [];//temp
-			manualData["function"] = document.getElementById('custom_effect').value;
-			manualData["explain"] = document.getElementById('custom_explain').value;
+			manualData["function"] = getCustomValue("effect");
+			manualData["explain"] = getCustomValue("explain");
 			manualData["id"] = 0;//temp
 
 			return manualData;
@@ -1474,6 +1489,7 @@ http://opensource.org/licenses/mit-license.php
 		//取消
 		document.getElementById('cancelBtn').addEventListener('click', function () {
 			close_upload_modal();
+			//console.log(getManualCustomData());
 		});
 		//確認
 		document.getElementById('confirmBtn').addEventListener('click', function () {
