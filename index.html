@@ -254,6 +254,12 @@ http://opensource.org/licenses/mit-license.php
 					</td>
 				</tr>
 				<tr>
+					<td>最大SR</td>
+					<td class="left">
+						<label><input id="custom_max_sr" type="number" size="40" value=""></label><br>
+					</td>
+				</tr>
+				<tr>
 					<td>時機</td>
 					<td class="left" id="timing_group">
 						<label><input type="radio" name="timing" value="常駐" checked> 常駐</label>
@@ -527,6 +533,8 @@ http://opensource.org/licenses/mit-license.php
 		var skills = [];
 		var tagl = [""];
 		var timer1;
+		var sna_value;
+		var efe_value;
 
 
 		function Sleep(T) {
@@ -539,12 +547,22 @@ http://opensource.org/licenses/mit-license.php
 		}
 
 		function tm_start() {
-			timer1 = setInterval("reloadData()", 1000);
+			timer1 = setInterval("check_input_changed()", 1000);
 		}
 
 		function tm_Off() {
 			clearInterval(timer1);
 			reloadData();
+		}
+		function check_input_changed() {
+			var sna = document.getElementById('sna').value;
+			var efe = document.getElementById('efe').value;
+			let is_input_changed = sna !== sna_value || efe !== efe_value;
+			if (is_input_changed) {
+				reloadData();
+				sna_value = sna;
+				efe_value = efe;
+			}
 		}
 		function reloadData() {
 			var com = document.getElementById('com');
@@ -905,7 +923,7 @@ http://opensource.org/licenses/mit-license.php
 
 						if (f6 == 1) {
 							var re = new RegExp(s_name, "i");
-							if (!skills[i].name.match(re)) {
+							if (!skills[i].name.match(re) && !skills[i].name.match(new RegExp(sna, "i"))) {
 								continue;
 							}
 						}
@@ -1308,6 +1326,7 @@ http://opensource.org/licenses/mit-license.php
 			//清除設定
 			document.getElementById('fileInput').value = '';
 			document.getElementById('typeSelect').value = "skills";
+			clearManualInputValue();
 		}
 		function clear_uploaded_data() {
 			for (var prop in custom_skill_dict) {
@@ -1450,6 +1469,15 @@ http://opensource.org/licenses/mit-license.php
 			return null;
 		}
 
+		function clearRadioValue(name) {
+			var ele = document.getElementsByName(name);
+
+			for (i = 0; i < ele.length; i++) {
+				ele[i].checked = true;
+				return;
+			}
+		}
+
 		function getCustomValue(type) {
 			var ele = document.getElementById(`custom_${type}`);
 
@@ -1459,26 +1487,64 @@ http://opensource.org/licenses/mit-license.php
 			return null;
 		}
 
+		function setCustomValue(type, value) {
+			var ele = document.getElementById(`custom_${type}`);
+			
+			if (ele) {
+				ele.value = value;
+			}
+		}
+
 		function getManualCustomData() {
 			let manualData = {};
 			manualData["job_type"] = getRadioValue("job_type");
 			manualData["type"] = getRadioValue("type");
 			manualData["name"] = getCustomValue("skill_name");
 			manualData["skill_rank"] = null;
-			manualData["skill_max_rank"] = 0;//temp
+			let raw_max_sr = getCustomValue("max_sr");
+			let max_sr = parseInt(raw_max_sr, 10);
+			manualData["skill_max_rank"] = !isNaN(max_sr) ? max_sr : 0;
 			manualData["timing"] = getRadioValue("timing");
 			manualData["roll"] = getCustomValue("roll");
 			manualData["target"] = getCustomValue("target");
 			manualData["range"] = getRadioValue("range");
-			manualData["cost"] = getCustomValue("cost");
+			let rawCost = getCustomValue("cost");
+			manualData["cost"] = rawCost != "" ? rawCost : "-";
 			manualData["post"] = null;//temp
-			manualData["limit"] = getCustomValue("limit");
-			manualData["tags"] = [];//temp
+			let rawLimit = getCustomValue("limit");
+			manualData["limit"] = rawLimit != "" ? rawLimit : "-";
+			let rawTags = getCustomValue("tags");
+			let tags = rawTags.split(/,/).map(tag => tag.trim());
+			manualData["tags"] = tags;
 			manualData["function"] = getCustomValue("effect");
 			manualData["explain"] = getCustomValue("explain");
 			manualData["id"] = 0;//temp
 
 			return manualData;
+		}
+		function uploadManualCustomData() {
+			let skill_data = getManualCustomData();
+			let skill_data_list = [skill_data];
+			let isLegal = check_skill_data(skill_data_list);
+			if (isLegal) {
+				push_custom_skill(skill_data_list/*, { "type": type_enum }*/);
+			}
+		}
+		function clearManualInputValue() {
+			clearRadioValue("job_type");
+			clearRadioValue("type");
+			setCustomValue("skill_name", "");
+			setCustomValue("max_sr","");
+			clearRadioValue("timing");
+			setCustomValue("roll", "");
+			setCustomValue("target", "");
+			clearRadioValue("range");
+			setCustomValue("range", "");
+			setCustomValue("cost", "");
+			setCustomValue("limit", "");
+			setCustomValue("tags", "");
+			setCustomValue("effect", "");
+			setCustomValue("explain", "");
 		}
 		//選擇檔案
 		document.getElementById('fileInput').addEventListener('change', function () {
@@ -1489,7 +1555,6 @@ http://opensource.org/licenses/mit-license.php
 		//取消
 		document.getElementById('cancelBtn').addEventListener('click', function () {
 			close_upload_modal();
-			//console.log(getManualCustomData());
 		});
 		//確認
 		document.getElementById('confirmBtn').addEventListener('click', function () {
