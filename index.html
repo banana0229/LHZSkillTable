@@ -674,7 +674,20 @@ http://opensource.org/licenses/mit-license.php
 			}
 			if (efe != "") {
 				f3 = 1;
-				var efect = escape(efe).split(/\s/);
+				var efect = [];
+				var efect_set = new Set();
+				var raw_efect = efe.split(/\s/);
+				for (var i = 0; i < raw_efect.length; i++) {
+					if (!efect_set.has(raw_efect[i])) {
+						efect_set.add(raw_efect[i]);
+						efect.push(raw_efect[i]);
+					}
+					var escape_efect = escape(raw_efect[i]);
+					if (!efect_set.has(escape_efect)) {
+						efect_set.add(escape_efect);
+						efect.push(escape_efect);
+					}
+				}
 			}
 			if (sna != "") {
 				f6 = 1;
