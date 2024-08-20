@@ -210,7 +210,13 @@ http://opensource.org/licenses/mit-license.php
 				<tr>
 					<td>特技名</td>
 					<td class="left">
-						<label><input id="custom_skill_name" type="text" size="40" value=""></label>
+						<label><input id="custom_skill_name" type="text" size="25" value=""></label>
+					</td>
+				</tr>
+				<tr>
+					<td>標籤</td>
+					<td class="left">
+						<label><input id="custom_tags" type="text" size="60" value=""></label><br>
 					</td>
 				</tr>
 				<tr>
@@ -256,7 +262,8 @@ http://opensource.org/licenses/mit-license.php
 				<tr>
 					<td>最大SR</td>
 					<td class="left">
-						<label><input id="custom_max_sr" type="number" size="40" value=""></label><br>
+						<label><input id="custom_max_sr" type="number" min="0" max="99" style="width: 60px;" value=""
+								oninput="let num = parseInt(this.value, 10); this.value = !!this.value && !isNaN(num) && num >= 0 ? (num < 99 ? num : 99) : null"></label><br>
 					</td>
 				</tr>
 				<tr>
@@ -285,13 +292,13 @@ http://opensource.org/licenses/mit-license.php
 				<tr>
 					<td>判定</td>
 					<td class="left">
-						<label><input id="custom_roll" type="text" size="40" value=""></label><br>
+						<label><input id="custom_roll" type="text" size="25" value=""></label><br>
 					</td>
 				</tr>
 				<tr>
 					<td>對象</td>
 					<td class="left">
-						<label><input id="custom_target" type="text" size="40" value=""></label><br>
+						<label><input id="custom_target" type="text" size="25" value=""></label><br>
 					</td>
 				</tr>
 				<tr>
@@ -314,31 +321,27 @@ http://opensource.org/licenses/mit-license.php
 				<tr>
 					<td>代價</td>
 					<td class="left">
-						<label><input id="custom_cost" type="text" size="40" value=""></label><br>
+						<label><input id="custom_cost" type="text" size="25" value=""></label><br>
 					</td>
 				</tr>
 				<tr>
 					<td>限制</td>
 					<td class="left">
-						<label><input id="custom_limit" type="text" size="40" value=""></label><br>
+						<label><input id="custom_limit" type="text" size="25" value=""></label><br>
 					</td>
 				</tr>
 				<tr>
 					<td>效果</td>
 					<td class="left">
-						<label><input id="custom_effect" type="text" size="40" value=""></label><br>
+						<label><textarea id="custom_effect"
+								style="width: 360px; height: 90px; resize:none;"></textarea></label><br>
 					</td>
 				</tr>
 				<tr>
 					<td>說明</td>
 					<td class="left">
-						<label><input id="custom_explain" type="text" size="40" value=""></label><br>
-					</td>
-				</tr>
-				<tr>
-					<td>標籤</td>
-					<td class="left">
-						<label><input id="custom_tags" type="text" size="40" value=""></label><br>
+						<label><textarea id="custom_explain"
+								style="width: 360px; height: 90px; resize:none;"></textarea></label><br>
 					</td>
 				</tr>
 			</table>
@@ -1489,7 +1492,7 @@ http://opensource.org/licenses/mit-license.php
 
 		function setCustomValue(type, value) {
 			var ele = document.getElementById(`custom_${type}`);
-			
+
 			if (ele) {
 				ele.value = value;
 			}
@@ -1534,7 +1537,7 @@ http://opensource.org/licenses/mit-license.php
 			clearRadioValue("job_type");
 			clearRadioValue("type");
 			setCustomValue("skill_name", "");
-			setCustomValue("max_sr","");
+			setCustomValue("max_sr", "");
 			clearRadioValue("timing");
 			setCustomValue("roll", "");
 			setCustomValue("target", "");
