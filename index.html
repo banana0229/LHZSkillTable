@@ -657,6 +657,7 @@ http://opensource.org/licenses/mit-license.php
 			//f5 タグの判定
 			var f6 = 0;//特技名の書き込みあるなし
 			var f7 = 0;//タイミングのチェックあるなし
+			var f8 = 0;//是否只選非特技資料
 			var col_count = 13;
 
 			for (var i = 1; i < 26; i++) {
@@ -734,7 +735,7 @@ http://opensource.org/licenses/mit-license.php
 							(document.forms[0].elements[28].checked ||
 								document.forms[0].elements[29].checked)
 						) {
-							f4 = 1;
+							f8 = 1;
 						}
 						//if(!ads.checked && skills[i].function.match(/Ｂ２/)) {
 						//continue;
@@ -751,7 +752,7 @@ http://opensource.org/licenses/mit-license.php
 						if (!ex.checked && type2 == "ex power") {
 							continue;
 						}
-						if (f1 == 0 && f2 == 0 && f3 == 0 && f4 == 0 && tna == "" && f6 == 0 && f7 == 0) {
+						if (f1 == 0 && f2 == 0 && f3 == 0 && f4 == 0 && tna == "" && f6 == 0 && f7 == 0 && f8 == 0) {
 							continue;
 						}
 
