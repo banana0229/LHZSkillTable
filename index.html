@@ -187,6 +187,10 @@ http://opensource.org/licenses/mit-license.php
 		table.option {
 			font-size: 1.2em;
 		}
+
+		.multiLine {
+			white-space:pre-line;	
+		}
 	</style>
 </head>
 
@@ -202,8 +206,9 @@ http://opensource.org/licenses/mit-license.php
 
 	<div id="modal" class="modal">
 		<div class="modal-window">
-			<input type="file" id="fileInput" accept=".json">
-			<table class="option hidden">
+			<label><input id="manual_mode_setting" type="checkbox" onchange="switchUploadMode()" />手動模式</label><br>
+			<label><input id="fileInput" type="file" accept=".json"></label>
+			<table id="manual_mode" class="option hidden">
 				<tr>
 					<th colspan="2">手動設定</th>
 				</tr>
@@ -1040,6 +1045,7 @@ http://opensource.org/licenses/mit-license.php
 						row.appendChild(limitCol);
 
 						var efectCol = document.createElement('td');
+						efectCol.setAttribute("class", "multiLine");
 						if (fct.checked) {
 							efectCol.innerHTML = skills[i].function + (post1 === null ? "" : "(" + post1 + ")");
 						} else {
@@ -1062,7 +1068,7 @@ http://opensource.org/licenses/mit-license.php
 							}
 							var functionCol = document.createElement('td');
 							functionCol.setAttribute("colspan", col_count);
-							functionCol.setAttribute("class", "left");
+							functionCol.setAttribute("class", "left multiLine");
 							var funtionText = "";
 							var explainText = "";
 							//if(fct.checked) {
@@ -1522,7 +1528,8 @@ http://opensource.org/licenses/mit-license.php
 			let max_sr = parseInt(raw_max_sr, 10);
 			manualData["skill_max_rank"] = !isNaN(max_sr) ? max_sr : 0;
 			manualData["timing"] = getRadioValue("timing");
-			manualData["roll"] = getCustomValue("roll");
+			let rawRoll = getCustomValue("roll");
+			manualData["roll"] = rawRoll != "" ? rawRoll : "無判定";
 			manualData["target"] = getCustomValue("target");
 			manualData["range"] = getRadioValue("range");
 			let rawCost = getCustomValue("cost");
@@ -1546,6 +1553,7 @@ http://opensource.org/licenses/mit-license.php
 			if (isLegal) {
 				push_custom_skill(skill_data_list/*, { "type": type_enum }*/);
 			}
+			return isLegal;
 		}
 		function clearManualInputValue() {
 			clearRadioValue("job_type");
@@ -1563,6 +1571,41 @@ http://opensource.org/licenses/mit-license.php
 			setCustomValue("effect", "");
 			setCustomValue("explain", "");
 		}
+		function switchUploadMode() {
+			let manual_mode_setting = document.getElementById('manual_mode_setting');
+			let is_manual = manual_mode_setting.checked;
+
+			let manual_mode = document.getElementById('manual_mode');
+			let file_mode = document.getElementById('fileInput');
+
+			if (is_manual) {
+				manual_mode.classList.remove('hidden');
+				file_mode.classList.add('hidden');
+
+				//clear file
+				file_mode.value = '';
+				document.getElementById('typeSelect').value = "skills";
+
+				//refresh confirm button
+				document.getElementById('confirmBtn').disabled = true;
+			}
+			else {
+				manual_mode.classList.add('hidden');
+				file_mode.classList.remove('hidden');
+
+				//clear manual input
+				clearManualInputValue();
+
+				//refresh confirm button
+				document.getElementById('confirmBtn').disabled = true;
+			}
+		}
+		document.getElementById('custom_skill_name').addEventListener('input', function () {
+			//有特技名稱才能確認
+			let confirmBtn = document.getElementById('confirmBtn');
+			confirmBtn.disabled = !(this.value !== "");
+		});
+
 		//選擇檔案
 		document.getElementById('fileInput').addEventListener('change', function () {
 			//有上傳檔案才能確認
@@ -1575,16 +1618,30 @@ http://opensource.org/licenses/mit-license.php
 		});
 		//確認
 		document.getElementById('confirmBtn').addEventListener('click', function () {
-			let fileInput = document.getElementById('fileInput');
-			let typeSelect = document.getElementById('typeSelect');
-			let file = fileInput.files[0];
-			let type = typeSelect.value;
+			let manual_mode_setting = document.getElementById('manual_mode_setting');
+			let is_manual = manual_mode_setting.checked;
 
-			if (!file) {
-				alert('找不到指定檔案\n請重新上傳');
-				return;
+			if (is_manual) {
+				if (uploadManualCustomData()) {
+					clearManualInputValue();
+					this.disabled = true;
+				}
+				else {
+					alert('上傳失敗\n請重新檢查格式');
+				}
 			}
-			openjson_local(file, { "type": type })
+			else {
+				let fileInput = document.getElementById('fileInput');
+				let typeSelect = document.getElementById('typeSelect');
+				let file = fileInput.files[0];
+				let type = typeSelect.value;
+
+				if (!file) {
+					alert('找不到指定檔案\n請重新上傳');
+					return;
+				}
+				openjson_local(file, { "type": type })
+			}
 		});
 	</script>
 </body>
