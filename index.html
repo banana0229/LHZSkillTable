@@ -189,12 +189,10 @@ http://opensource.org/licenses/mit-license.php
 		}
 
 		.multiLine {
-			white-space:pre-line;	
+			white-space: pre-line;
 		}
 
 		.setting {
-			width: 18px;
-			height: 18px;
 			font-size: 1.2em;
 		}
 	</style>
@@ -212,7 +210,10 @@ http://opensource.org/licenses/mit-license.php
 
 	<div id="modal" class="modal">
 		<div class="modal-window">
-			<label><input class="setting" id="manual_mode_setting" type="checkbox" onchange="switchUploadMode()" />手動模式</label><br>
+			<div class="setting">
+				<label><input id="manual_mode_setting" type="checkbox" onchange="switchUploadMode()" style="
+					width: 18px; height: 18px" />手動模式</label><br>
+			</div>
 			<label><input id="fileInput" type="file" accept=".json"></label>
 			<table id="manual_mode" class="option hidden">
 				<tr>
