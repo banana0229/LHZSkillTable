@@ -546,6 +546,7 @@ http://opensource.org/licenses/mit-license.php
 
 		//#region default_setting
 		var setting = {};
+		setting["is_show_official_skill"] = true;
 		//#endregion
 
 
@@ -1354,7 +1355,7 @@ http://opensource.org/licenses/mit-license.php
 			document.forms[0].elements[61].checked = false;
 			document.forms[0].elements[62].checked = false;
 
-			document.forms[0].elements[65].checked = true;
+			document.forms[0].elements[65].checked = setting["is_show_official_skill"] == true;
 			document.forms[0].elements[66].checked = setting["is_show_custom_skill"] == true;
 
 			document.forms[0].elements[67].checked = true;
@@ -1643,9 +1644,14 @@ http://opensource.org/licenses/mit-license.php
 		}
 		function update_setting() {
 			let is_dirty = false;
+			let is_show_official_skill = document.getElementById('show_skill').checked;
 			let is_show_custom_skill = document.getElementById('show_custom_skill').checked;
 			if (setting["is_show_custom_skill"] != is_show_custom_skill) {
 				setting["is_show_custom_skill"] = is_show_custom_skill;
+				is_dirty = true;
+			}
+			if (setting["is_show_official_skill"] != is_show_official_skill) {
+				setting["is_show_official_skill"] = is_show_official_skill;
 				is_dirty = true;
 			}
 
