@@ -485,7 +485,7 @@ http://opensource.org/licenses/mit-license.php
 					<input type="button" name="r_all" value="清空" onMouseUp="reset_all()">&nbsp;<br />
 					<label><input id="show_skill" type="checkbox" onchange="reloadData();" checked="" />
 						顯示官方特技</label>&nbsp;
-					<label><input id="show_custom_skill" type="checkbox" onchange="reloadData();" checked="" />
+					<label><input id="show_custom_skill" type="checkbox" onchange="reloadData();"/>
 						顯示自訂特技</label>&nbsp;&nbsp;&nbsp;<br />
 					查詢範圍：
 					<label><input id="bk1" type="checkbox" onchange="reloadData();" checked="" />
@@ -584,6 +584,7 @@ http://opensource.org/licenses/mit-license.php
 			}
 		}
 		function reloadData() {
+			update_setting();
 			var com = document.getElementById('com');
 
 			var hum = document.getElementById('hum');
@@ -1189,11 +1190,17 @@ http://opensource.org/licenses/mit-license.php
 			jp_ex_request.send();
 
 			let savedData = loadFromLocalStorage("custom_skill_dict");
+			let default_setting = loadFromLocalStorage("default_setting");
 
 			for (var prop in savedData) {
 				custom_skill_dict[prop] = savedData[prop];
 			}
-			//console.log(savedData);
+
+			for (var prop in default_setting) {
+				setting[prop] = default_setting[prop];
+			}
+
+			reset_all();
 		};
 
 		function load_skill(url, enum_type = enum_other) {
@@ -1348,7 +1355,7 @@ http://opensource.org/licenses/mit-license.php
 			document.forms[0].elements[62].checked = false;
 
 			document.forms[0].elements[65].checked = true;
-			document.forms[0].elements[66].checked = true;
+			document.forms[0].elements[66].checked = setting["is_show_custom_skill"] == true;
 
 			document.forms[0].elements[67].checked = true;
 			document.forms[0].elements[68].checked = true;
@@ -1633,6 +1640,18 @@ http://opensource.org/licenses/mit-license.php
 			container.splice(index, 1);
 			saveToLocalStorage("custom_skill_dict", custom_skill_dict);
 			reloadData();
+		}
+		function update_setting() {
+			let is_dirty = false;
+			let is_show_custom_skill = document.getElementById('show_custom_skill').checked;
+			if (setting["is_show_custom_skill"] != is_show_custom_skill) {
+				setting["is_show_custom_skill"] = is_show_custom_skill;
+				is_dirty = true;
+			}
+
+			if (is_dirty) {
+				saveToLocalStorage("default_setting", setting);
+			}
 		}
 		document.getElementById('custom_skill_name').addEventListener('input', function () {
 			//有特技名稱才能確認
