@@ -485,7 +485,7 @@ http://opensource.org/licenses/mit-license.php
 					<input type="button" name="r_all" value="清空" onMouseUp="reset_all()">&nbsp;<br />
 					<label><input id="show_skill" type="checkbox" onchange="reloadData();" checked="" />
 						顯示官方特技</label>&nbsp;
-					<label><input id="show_custom_skill" type="checkbox" onchange="reloadData();"/>
+					<label><input id="show_custom_skill" type="checkbox" onchange="reloadData();" />
 						顯示自訂特技</label>&nbsp;&nbsp;&nbsp;<br />
 					查詢範圍：
 					<label><input id="bk1" type="checkbox" onchange="reloadData();" checked="" />
@@ -1678,6 +1678,8 @@ http://opensource.org/licenses/mit-license.php
 				if (uploadManualCustomData()) {
 					clearManualInputValue();
 					this.disabled = true;
+					reload_tags();
+					reloadData();
 				}
 				else {
 					alert('上傳失敗\n請重新檢查格式');
