@@ -228,7 +228,7 @@ http://opensource.org/licenses/mit-license.php
 				<tr>
 					<td>標籤</td>
 					<td class="left">
-						<label><input id="custom_tags" type="text" size="60" value=""></label><br>
+						<label><input id="custom_tags" type="text" size="60" value="">&nbsp;(標籤間請以「,」來分隔)</label><br>
 					</td>
 				</tr>
 				<tr>
@@ -516,6 +516,7 @@ http://opensource.org/licenses/mit-license.php
 				<th>限制</th>
 				<th>效果</th>
 				<th id="jp_fct_th" class="hidden">原文效果</th>
+				<th id="remove" class="hidden">移除</th>
 			</tr>
 		</thead>
 		<tbody id="tablebody">
@@ -543,6 +544,9 @@ http://opensource.org/licenses/mit-license.php
 		var jp_dict = {};
 		//#endregion
 
+		//#region default_setting
+		var setting = {};
+		//#endregion
 
 
 		var skills = [];
@@ -658,6 +662,7 @@ http://opensource.org/licenses/mit-license.php
 			var etc = document.getElementById('etc');
 
 			var jp_fct_th = document.getElementById('jp_fct_th');
+			var remove_th = document.getElementById('remove');
 
 			var show_skill = document.getElementById('show_skill');
 			var show_custom_skill = document.getElementById('show_custom_skill');
@@ -717,6 +722,13 @@ http://opensource.org/licenses/mit-license.php
 			}
 			else {
 				jp_fct_th.classList.add('hidden');
+			}
+			if (show_custom_skill.checked) {
+				remove.classList.remove('hidden');
+				col_count++;
+			}
+			else {
+				remove.classList.add('hidden');
 			}
 			var tbody = document.getElementById("tablebody");
 			tbody.innerHTML = "";
@@ -1064,6 +1076,13 @@ http://opensource.org/licenses/mit-license.php
 							var jp_efectCol = document.createElement('td');
 							jp_efectCol.innerHTML = !isCustomData ? get_jp_effect(skills[i]["id"], dict_key) : '－';
 							row.appendChild(jp_efectCol);
+						}
+
+						if (show_custom_skill.checked) {
+							var remove_btn = document.createElement('td');
+							var container = skills;
+							remove_btn.innerHTML = isCustomData ? "<button onMouseUp='remove_skill_data(all_skill_dicts[" + dict_index + "][" + dict_key + "], " + i + ")'>移除</button>" : "不可";
+							row.appendChild(remove_btn);
 						}
 
 						tbody.appendChild(row);
@@ -1606,6 +1625,14 @@ http://opensource.org/licenses/mit-license.php
 				//refresh confirm button
 				document.getElementById('confirmBtn').disabled = true;
 			}
+		}
+		function remove_skill_data(container, index) {
+			if (!container || !Array.isArray(container) || index >= container.length || index < 0) {
+				alert('找不到指定特技\n請重新整理');
+			}
+			container.splice(index, 1);
+			saveToLocalStorage("custom_skill_dict", custom_skill_dict);
+			reloadData();
 		}
 		document.getElementById('custom_skill_name').addEventListener('input', function () {
 			//有特技名稱才能確認
